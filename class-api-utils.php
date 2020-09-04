@@ -113,31 +113,33 @@ class ClassApiUtils extends WP_REST_Controller {
    * @return WP_Error|WP_REST_Response
    */
   public function create_item( $request ) {
-      if ( !isset( $request['name'] ) ) {
+      $params = $request->get_params();
+
+      if ( !isset( $params['name'] ) ) {
           return new WP_Error( 'cant-create', __( 'Api Name is required..', 'text-domain' ), array( 'status' => 500 ) );
       }
 
-      if ( !isset( $request['table'] ) ) {
+      if ( !isset( $params['table'] ) ) {
           return new WP_Error( 'cant-create', __( 'DB Table Name is required..', 'text-domain'), array( 'status' => 500 ) );
       }
 
       $methods = array("GET", "POST");
-      if ( !isset( $request['method'] ) ) {
+      if ( !isset( $params['method'] ) ) {
           return new WP_Error( 'cant-create', __( 'HTTP method is required.', 'text-domain' ), array( 'status' => 500 ) );
-      } else if (!in_array($request['method'], $methods)){
+      } else if (!in_array($params['method'], $methods)){
           return new WP_Error( 'cant-create', __( 'Invalid HTTP method. Permitted HTTP methods are GET and POST.', 'text-domain' ), array( 'status' => 500 ) );
       }
 
       $list = get_option('AJDT_API_LIST');
 
-      $list[$request['name']] =  array(
-                          "TableName" => $request['table'],
-                          "MethodName" => $request['method'],
+      $list[$params['name']] =  array(
+                          "TableName" => $params['table'],
+                          "MethodName" => $params['method'],
                           "SelectedColumn" => 'name,age,email',
                           "ConditionColumn" => '',
                           "SelectedCondtion" => 'no condition',
                           "SelectedParameter" => 1,
-                          "query" => 'Select * from '.$request['table'].';'
+                          "query" => 'Select * from '.$params['table'].';'
                   );
       update_option('AJDT_API_LIST', $list);
       $data = get_option('AJDT_API_LIST');
@@ -175,16 +177,17 @@ class ClassApiUtils extends WP_REST_Controller {
    * @return WP_Error|WP_REST_Response
    */
   public function delete_item( $request ) {
-    $item = $this->prepare_item_for_database( $request );
- 
-    if ( function_exists( 'slug_some_function_to_delete_item' ) ) {
-      $deleted = slug_some_function_to_delete_item( $item );
-      if ( $deleted ) {
-        return new WP_REST_Response( true, 200 );
-      }
+    $params = $request->get_params();
+
+    if ( !isset( $params['name'] ) ) {
+        return new WP_Error( 'cant-delete', __( 'Api Name is required..', 'text-domain' ), array( 'status' => 500 ) );
     }
  
-    return new WP_Error( 'cant-delete', __( 'message', 'text-domain' ), array( 'status' => 500 ) );
+    $list = get_option('AJDT_API_LIST');
+    unset($list[$params['name']]);
+    update_option('AJDT_API_LIST', $list);
+
+    return new WP_REST_Response( true, 200 );
   }
  
   /**

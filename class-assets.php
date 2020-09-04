@@ -66,6 +66,18 @@ class Assets {
         global $wp_version;
 
         $scripts = [
+            'jquery-3.2.1.slim' => [
+                'src'       => 'https://code.jquery.com/jquery-3.2.1.slim.min.js',
+                'in_footer' => true
+            ],
+            'popper.min.js' => [
+                'src'       => 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',
+                'in_footer' => true
+            ],
+            'bootstrap.min' => [
+                'src'       => 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js',
+                'in_footer' => true
+            ],
             'polyfill' => [
                 'src'       => '//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver',
                 'in_footer' => true
@@ -84,6 +96,10 @@ class Assets {
             ],
             'ajdt-lib' => array(
                 'src'       => AJDT_URL . '/js/vueapp.js',
+                'in_footer' => true
+            ),
+            'ajdt-scripts' => array(
+                'src'       => AJDT_URL . '/js/scripts.js',
                 'in_footer' => true
             )
         ];
@@ -117,6 +133,9 @@ class Assets {
             wp_enqueue_style( 'bootstrap-vue-min' );
 
             // Load scripts
+            wp_enqueue_script( 'jquery-3.2.1.slim' );
+            wp_enqueue_script( 'popper.min.js' );
+            wp_enqueue_script( 'bootstrap.min' );
             wp_enqueue_script( 'polyfill' );
             wp_enqueue_script( 'vue' );
             wp_enqueue_script( 'bootstrap-vue' );
@@ -124,6 +143,8 @@ class Assets {
 
             do_action( 'ajdt_load_forntend_scripts' );
             wp_enqueue_script( 'ajdt-lib' );
+            wp_enqueue_script( 'ajdt-scripts' );
+            
        // }
     }
 
