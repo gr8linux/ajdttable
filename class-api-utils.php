@@ -2,22 +2,28 @@
  //https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/
 class ClassApiUtils extends WP_REST_Controller {
 
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        // // Init REST API routes.
+        // add_action( 'rest_api_init', [ $this, 'register_rest_routes' ], 10 );
+        $this->register_routes();
+    }
   /**
    * Register the routes for the objects of the controller.
    */
   public function register_routes() {
-    //http://localhost/wordpressv1/wp-json/fgvuetest/v1/students
-    $namespace = 'fgvuetest/v1';
-    $base = 'students';
+    //http://localhost/wp55/wp-json/ajdt/v1/utility
+    $namespace = 'ajdt/v1';
+    $base = 'utility';
 
     register_rest_route( $namespace, '/' . $base, array(
       array(
         'methods'             => WP_REST_Server::READABLE,
         'callback'            => array( $this, 'get_items' ),
         'permission_callback' => array( $this, 'get_items_permissions_check' ),
-        'args'                => array(
- 
-        ),
+        'args'                => array(),
       ),
       array(
         'methods'             => WP_REST_Server::CREATABLE,
@@ -68,8 +74,8 @@ class ClassApiUtils extends WP_REST_Controller {
    */
   public function get_items( $request ) {
     global $wpdb;
-    $table_Student = $wpdb->prefix.'vjpt_students'; 
-    $items = $wpdb->get_results($wpdb->prepare("SELECT *  FROM $table_Student"), ARRAY_A);
+    //$table_Student = $wpdb->prefix.'wp55_ajdt_utils'; 
+    $items = $wpdb->get_results($wpdb->prepare("SELECT *  FROM wp55_ajdt_utils"), ARRAY_A);
     return new WP_REST_Response($items, 200 );
   }
  
@@ -102,10 +108,11 @@ class ClassApiUtils extends WP_REST_Controller {
    * @return WP_Error|WP_REST_Response
    */
   public function create_item( $request ) {
-    $item = $this->prepare_item_for_database( $request );
+    //$item = $this->prepare_item_for_database( $request );
  
     if ( function_exists( 'slug_some_function_to_create_item' ) ) {
-      $data = slug_some_function_to_create_item( $item );
+      //$data = slug_some_function_to_create_item( $item );
+$data = $request;
       if ( is_array( $data ) ) {
         return new WP_REST_Response( $data, 200 );
       }
@@ -180,7 +187,7 @@ class ClassApiUtils extends WP_REST_Controller {
    * @return WP_Error|bool
    */
   public function create_item_permissions_check( $request ) {
-    return current_user_can( 'edit_something' );
+    return true; //current_user_can( 'edit_something' );
   }
  
   /**

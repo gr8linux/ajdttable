@@ -83,7 +83,7 @@ class Assets {
                 'in_footer' => true
             ],
             'ajdt-lib' => array(
-                'src'       => AJDT_URL . '/vueapp.js',
+                'src'       => AJDT_URL . '/js/vueapp.js',
                 'in_footer' => true
             )
         ];
