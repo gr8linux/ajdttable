@@ -73,10 +73,12 @@ class ClassApiUtils extends WP_REST_Controller {
    * @return WP_Error|WP_REST_Response
    */
   public function get_items( $request ) {
-    global $wpdb;
+    //global $wpdb;
     //$table_Student = $wpdb->prefix.'wp55_ajdt_utils'; 
-    $items = $wpdb->get_results($wpdb->prepare("SELECT *  FROM wp55_ajdt_utils"), ARRAY_A);
-    return new WP_REST_Response($items, 200 );
+    //$items = $wpdb->get_results($wpdb->prepare("SELECT *  FROM wp55_ajdt_utils"), ARRAY_A);
+
+    $data = get_option('AJDT_API_LIST');
+    return new WP_REST_Response($data, 200 );
   }
  
   /**
@@ -89,10 +91,13 @@ class ClassApiUtils extends WP_REST_Controller {
     //get parameters from request
     $params = $request->get_params();
     //$data = $this->prepare_item_for_response( $item, $request );
-    global $wpdb;
-    $table_Student = $wpdb->prefix.'vjpt_students'; 
-    $item = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_Student WHERE id=%d", $params['id']), ARRAY_A);
-    $data =$item;
+    // global $wpdb;
+    // $table_Student = $wpdb->prefix.'vjpt_students'; 
+    // $item = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_Student WHERE id=%d", $params['id']), ARRAY_A);
+    // $data =$item;
+
+    $data = get_option('AJDT_API_LIST');
+
     //return a response or error based on some conditional
     if ( 1 == 1 ) {
       return new WP_REST_Response( $data, 200 );
@@ -108,15 +113,38 @@ class ClassApiUtils extends WP_REST_Controller {
    * @return WP_Error|WP_REST_Response
    */
   public function create_item( $request ) {
-    //$item = $this->prepare_item_for_database( $request );
- 
-    if ( function_exists( 'slug_some_function_to_create_item' ) ) {
-      //$data = slug_some_function_to_create_item( $item );
-$data = $request;
+      if ( !isset( $request['name'] ) ) {
+          return new WP_Error( 'cant-create', __( 'Api Name is required..', 'text-domain' ), array( 'status' => 500 ) );
+      }
+
+      if ( !isset( $request['table'] ) ) {
+          return new WP_Error( 'cant-create', __( 'DB Table Name is required..', 'text-domain'), array( 'status' => 500 ) );
+      }
+
+      $methods = array("GET", "POST");
+      if ( !isset( $request['method'] ) ) {
+          return new WP_Error( 'cant-create', __( 'HTTP method is required.', 'text-domain' ), array( 'status' => 500 ) );
+      } else if (!in_array($request['method'], $methods)){
+          return new WP_Error( 'cant-create', __( 'Invalid HTTP method. Permitted HTTP methods are GET and POST.', 'text-domain' ), array( 'status' => 500 ) );
+      }
+
+      $list = get_option('AJDT_API_LIST');
+
+      $list[$request['name']] =  array(
+                          "TableName" => $request['table'],
+                          "MethodName" => $request['method'],
+                          "SelectedColumn" => 'name,age,email',
+                          "ConditionColumn" => '',
+                          "SelectedCondtion" => 'no condition',
+                          "SelectedParameter" => 1,
+                          "query" => 'Select * from '.$request['table'].';'
+                  );
+      update_option('AJDT_API_LIST', $list);
+      $data = get_option('AJDT_API_LIST');
+
       if ( is_array( $data ) ) {
         return new WP_REST_Response( $data, 200 );
       }
-    }
  
     return new WP_Error( 'cant-create', __( 'message', 'text-domain' ), array( 'status' => 500 ) );
   }

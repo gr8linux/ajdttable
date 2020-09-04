@@ -26,7 +26,7 @@ print_r($_GET);
                 print("custom_api_wp_edit_api($api)");
             }
         } else
-            custom_api_wp_list_api1();
+            //custom_api_wp_list_api1();
             custom_api_wp_list_api();
     }
 }
@@ -73,7 +73,7 @@ function custom_api_wp_list_api()
         $url = admin_url('/admin.php?page=ajdtsettings&action=addapi');
         echo "<a href ={$url}>";
         ?>
-            <button class='btn btn-primary' style="margin-bottom: 15px; margin-left: 10px;">
+            <button class='btn btn-success' style="margin-bottom: 15px; margin-left: 10px;">
                 <span style="color:white"> Create API</span><i class='fas fa-user-edit'></i></button></a>
         </div>
         <div class="box-body">
@@ -81,7 +81,7 @@ function custom_api_wp_list_api()
                 <div class="box-body" style="margin-top:10px;margin-right:0px">
                     <div class="row" style="padding: unset;margin-left: 5px;">
                         <div class="col-md-7" style="background-color: white;">
-                            <div class="box-body table-responsive no-padding" style="overflow-y: auto">
+                            <div class="box-body table-responsive sm" style="overflow-y: auto">
                                 <table id="tbldata" class="table table-hover" style="width: 400px;margin: 5px;">
                                     <thead>
                                         <tr class="header">
@@ -100,7 +100,7 @@ function custom_api_wp_list_api()
                                                 echo "<tr>";
                                                 echo " <td>" . $key . "</td>";
                                                 echo "<td> <button class='btn btn-primary' style='font-size: 12px;' onclick = 'custom_api_wp_edit(this)'>Edit<i class='fas fa-user-edit'></i></button>&nbsp
-                        <button class='btn btn-primary' style='font-size: 12px;' onclick ='custom_api_wp_delete(this)'>Delete<i class='fas fa-user-edit'></i></button>
+                        <button class='btn btn-warning' style='font-size: 12px;' onclick ='custom_api_wp_delete(this)'>Delete<i class='fas fa-user-edit'></i></button>
                         </td>";
                                             }
                                         }
