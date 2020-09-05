@@ -118,7 +118,7 @@ function custom_api_wp_list_api()
 <?php
 }
 
-function ajdt_list_api() {
+function ajdt_list_api() { 
     $apiList = get_option('AJDT_API_LIST'); ?>
  <div class="wrap">
     <?php if (!empty($notice)): ?>
@@ -131,9 +131,11 @@ function ajdt_list_api() {
             <div class="rowLayout">
                 <p> Display the details about APIs </p>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
                     Create API
                 </button>
+
+                
 
                 <div class="form-horizontal">
                     <div class="box-body table-responsive sm" style="overflow-y: auto">
@@ -146,8 +148,8 @@ function ajdt_list_api() {
                                 $table = $Api['TableName'];
                                 $cols = $Api['SelectedColumn'];
                                 $URL = get_site_url() . '/wp-json/ajdt/v1/utility';
-                                echo "<tr><td>$key</td><td>$method</td><td>$table</td><td>$cols</td><td><a class='fas fa-user-edit' href='$URL'>URL</a></td>
-                                <td><button class='btn btn-primary' style='font-size: 12px;' onclick='custom_api_wp_edit(this)'>Edit<i class='fas fa-user-edit'></i></button>&nbsp
+                                echo "<tr><td class='apiname'>$key</td><td class='method'>$method</td><td class='table'>$table</td><td class='cols'>$cols</td><td class='url'><a class='fas fa-user-edit' href='$URL'>URL</a></td>
+                                <td><button type='button' class='btn btn-success' data-toggle='modal' data-target='#exampleModal' data-whatever='@this'>Edit</button>&nbsp
                                     <button class='btn btn-warning' style='font-size: 12px;' onclick='custom_api_wp_delete(this)'>Delete<i class='fas fa-user-edit'></i></button></td></tr>";
                             }
                             ?>
@@ -159,11 +161,6 @@ function ajdt_list_api() {
             
         </div>
 </div>
-<?php  } ?>
-
-
-
-
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -176,12 +173,24 @@ function ajdt_list_api() {
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <label for="api-name" class="col-form-label">Api Name:</label>
+            <input type="text" class="form-control" id="api-name">
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <label for="http-method" class="col-form-label">Http Method:</label>
+            <input type="text" class="form-control" id="http-method">
+          </div>
+        <div class="form-group">
+            <label for="table-name" class="col-form-label">Table Name:</label>
+            <input type="text" class="form-control" id="table-name">
+          </div>
+          <div class="form-group">
+            <label for="cols" class="col-form-label">Columns:</label>
+            <input type="text" class="form-control" id="cols">
+          </div>
+          <div class="form-group">
+            <label for="url" class="col-form-label">Columns:</label>
+            <input type="text" class="form-control" id="url">
           </div>
         </form>
       </div>
@@ -192,3 +201,4 @@ function ajdt_list_api() {
     </div>
   </div>
 </div>
+<?php  } ?>

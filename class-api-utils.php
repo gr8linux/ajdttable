@@ -31,8 +31,8 @@ class ClassApiUtils extends WP_REST_Controller {
         'permission_callback' => array( $this, 'create_item_permissions_check' ),
         'args'                => $this->get_endpoint_args_for_item_schema( true ),
       ),
-    ) );
-    register_rest_route($namespace, '/' . $base . '/(?P<id>[\d]+)', array(
+    ) );    // \w - string param, \d - digits 
+    register_rest_route($namespace, '/' . $base . '/(?P<apiname>[\w]+)', array( 
       array(
         'methods'             => WP_REST_Server::READABLE,
         'callback'            => array( $this, 'get_item' ),
@@ -73,10 +73,6 @@ class ClassApiUtils extends WP_REST_Controller {
    * @return WP_Error|WP_REST_Response
    */
   public function get_items( $request ) {
-    //global $wpdb;
-    //$table_Student = $wpdb->prefix.'wp55_ajdt_utils'; 
-    //$items = $wpdb->get_results($wpdb->prepare("SELECT *  FROM wp55_ajdt_utils"), ARRAY_A);
-
     $data = get_option('AJDT_API_LIST');
     return new WP_REST_Response($data, 200 );
   }
@@ -90,20 +86,14 @@ class ClassApiUtils extends WP_REST_Controller {
   public function get_item( $request ) {
     //get parameters from request
     $params = $request->get_params();
-    //$data = $this->prepare_item_for_response( $item, $request );
-    // global $wpdb;
-    // $table_Student = $wpdb->prefix.'vjpt_students'; 
-    // $item = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_Student WHERE id=%d", $params['id']), ARRAY_A);
-    // $data =$item;
+    $apiname = $params['apiname'];
+    $apiList = get_option('AJDT_API_LIST');
 
-    $data = get_option('AJDT_API_LIST');
+    $data = $apiList[$apiname];
+    if(!$data)
+      return new WP_Error( 'no-data', __( 'No matching api found..!', 'text-domain' ), array( 'status' => 500 ) );
 
-    //return a response or error based on some conditional
-    if ( 1 == 1 ) {
-      return new WP_REST_Response( $data, 200 );
-    } else {
-      return new WP_Error( 'code', __( 'message', 'text-domain' ) );
-    }
+    return new WP_REST_Response( $data, 200 );
   }
  
   /**
@@ -158,16 +148,34 @@ class ClassApiUtils extends WP_REST_Controller {
    * @return WP_Error|WP_REST_Response
    */
   public function update_item( $request ) {
-    $item = $this->prepare_item_for_database( $request );
- 
-    if ( function_exists( 'slug_some_function_to_update_item' ) ) {
-      $data = slug_some_function_to_update_item( $item );
-      if ( is_array( $data ) ) {
-        return new WP_REST_Response( $data, 200 );
-      }
+    $params = $request->get_params();
+
+    //TODO
+    //print_r($request);
+    return new WP_REST_Response( implode( $request ), 200 );
+    $apiname = $params['apiname'];
+    $apiList = get_option('AJDT_API_LIST');
+
+    $itemToUpdate = $apiList[$apiname];
+    if(!$itemToUpdate)
+      return new WP_Error( 'cant-update', __( 'No matching api found..!', 'text-domain' ), array( 'status' => 500 ) );
+
+    if ( !isset( $params['table'] ) ) {
+        return new WP_Error( 'cant-create', __( 'DB Table Name is required..', 'text-domain'), array( 'status' => 500 ) );
     }
- 
-    return new WP_Error( 'cant-update', __( 'message', 'text-domain' ), array( 'status' => 500 ) );
+
+    if ( !isset( $params['cols'] ) ) {
+        return new WP_Error( 'cant-create', __( 'SelectedColumn is required..', 'text-domain' ), array( 'status' => 500 ) );
+    }
+
+    $itemToUpdate['TableName'] = $params['table'];
+    $itemToUpdate['MethodName'] = $params['method'];
+    $itemToUpdate['SelectedColumn'] = $params['cols'];
+
+    $apiList[$apiname] = $itemToUpdate;
+    update_option('AJDT_API_LIST', $apiList);
+
+    return new WP_REST_Response( $apiList, 200 );
   }
  
   /**
@@ -178,16 +186,17 @@ class ClassApiUtils extends WP_REST_Controller {
    */
   public function delete_item( $request ) {
     $params = $request->get_params();
+    $apiname = $params['apiname'];
+    $apiList = get_option('AJDT_API_LIST');
 
-    if ( !isset( $params['name'] ) ) {
-        return new WP_Error( 'cant-delete', __( 'Api Name is required..', 'text-domain' ), array( 'status' => 500 ) );
-    }
- 
-    $list = get_option('AJDT_API_LIST');
-    unset($list[$params['name']]);
-    update_option('AJDT_API_LIST', $list);
+    $itemToDel = $apiList[$apiname];
+    if(!$itemToDel)
+      return new WP_Error( 'cant-delete', __( 'No matching api found..!', 'text-domain' ), array( 'status' => 500 ) );
 
-    return new WP_REST_Response( true, 200 );
+    unset($apiList[$apiname]);
+    update_option('AJDT_API_LIST', $apiList);
+
+    return new WP_REST_Response( $apiList, 200 );
   }
  
   /**
