@@ -131,26 +131,24 @@ function ajdt_list_api() {
             <div class="rowLayout">
                 <p> Display the details about APIs </p>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
-                    Create API
-                </button>
-
-                
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#saveApiModal">Create</button>
+                <button type="button" class="btn btn-info" onclick='fetchApiList()'>Refresh</button>
 
                 <div class="form-horizontal">
                     <div class="box-body table-responsive sm" style="overflow-y: auto">
-                        <table id="tbProdTypes" class="wp-list-table widefat fixed striped products tableStyle">
+                        <table id="tbApiList" class="wp-list-table widefat fixed striped products tableStyle">
                             <thead><tr><th>Name</th><th>Method</th><th>Table</th><th>Columns</th><th>URL</th><th>Action</th></tr></thead>
                             <tbody>
-                            <?php 
+                            <?php //data-backdrop="" 
                             foreach ($apiList as $key => $Api) {
                                 $method = $Api['MethodName'];
                                 $table = $Api['TableName'];
                                 $cols = $Api['SelectedColumn'];
-                                $URL = get_site_url() . '/wp-json/ajdt/v1/utility';
-                                echo "<tr><td class='apiname'>$key</td><td class='method'>$method</td><td class='table'>$table</td><td class='cols'>$cols</td><td class='url'><a class='fas fa-user-edit' href='$URL'>URL</a></td>
-                                <td><button type='button' class='btn btn-success' data-toggle='modal' data-target='#exampleModal' data-whatever='@this'>Edit</button>&nbsp
-                                    <button class='btn btn-warning' style='font-size: 12px;' onclick='custom_api_wp_delete(this)'>Delete<i class='fas fa-user-edit'></i></button></td></tr>";
+                                $url = $Api['Url'];
+                                $fullURL = get_site_url().'/'.$url;
+                                echo "<tr><td class='apiname'>$key</td><td class='method'>$method</td><td class='table'>$table</td><td class='cols'>$cols</td><td class='url'><a class='fas fa-user-edit' href='$fullURL'>$url</a></td>
+                                <td><button type='button' style='font-size: 12px;' class='btn btn-success' data-toggle='modal' data-target='#saveApiModal' >Edit</button>&nbsp
+                                    <button class='btn btn-warning' style='font-size: 12px;' onclick='deleteApi(this)'>Delete</button></td></tr>";
                             }
                             ?>
                             </tbody>
@@ -161,11 +159,12 @@ function ajdt_list_api() {
             
         </div>
 </div>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="saveApiModal" tabindex="-1" role="dialog" 
+aria-labelledby="saveApiModalLabel" aria-hidden="true" >       
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <h5 class="modal-title" id="saveApiModalLabel">Create New API</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -195,8 +194,8 @@ function ajdt_list_api() {
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" id="btnSaveApi" class="btn btn-primary">Save</button>
       </div>
     </div>
   </div>

@@ -55,7 +55,7 @@ class API_Registrar {
         global $wpdb;
         //print_r($request);
         $need =  $request->get_attributes();
-        $GetQuery = $need['args']['query'];
+        $GetQuery = $need['args']['Query'];
         $SelectedCondtion = $need['args']['SelectedCondtion'];
         if (($SelectedCondtion == 'no condition')) {
             $data = $wpdb->get_results("{$GetQuery}");

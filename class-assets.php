@@ -66,10 +66,6 @@ class Assets {
         global $wp_version;
 
         $scripts = [
-            'jquery-3.2.1.slim' => [
-                'src'       => 'https://code.jquery.com/jquery-3.2.1.slim.min.js',
-                'in_footer' => true
-            ],
             'popper.min.js' => [
                 'src'       => 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',
                 'in_footer' => true
@@ -133,7 +129,6 @@ class Assets {
             wp_enqueue_style( 'bootstrap-vue-min' );
 
             // Load scripts
-            wp_enqueue_script( 'jquery-3.2.1.slim' );
             wp_enqueue_script( 'popper.min.js' );
             wp_enqueue_script( 'bootstrap.min' );
             wp_enqueue_script( 'polyfill' );

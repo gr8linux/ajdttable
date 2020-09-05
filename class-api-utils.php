@@ -1,7 +1,9 @@
 <?php
  //https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/
 class ClassApiUtils extends WP_REST_Controller {
-
+    protected $namespace = 'ajdt/v1';
+    protected $base = '/utility';
+    
     /**
      * Constructor
      */
@@ -15,10 +17,7 @@ class ClassApiUtils extends WP_REST_Controller {
    */
   public function register_routes() {
     //http://localhost/wp55/wp-json/ajdt/v1/utility
-    $namespace = 'ajdt/v1';
-    $base = 'utility';
-
-    register_rest_route( $namespace, '/' . $base, array(
+    register_rest_route( $this->namespace, $this->base, array(
       array(
         'methods'             => WP_REST_Server::READABLE,
         'callback'            => array( $this, 'get_items' ),
@@ -32,7 +31,7 @@ class ClassApiUtils extends WP_REST_Controller {
         'args'                => $this->get_endpoint_args_for_item_schema( true ),
       ),
     ) );    // \w - string param, \d - digits 
-    register_rest_route($namespace, '/' . $base . '/(?P<apiname>[\w]+)', array( 
+    register_rest_route($this->namespace, $this->base . '/(?P<apiname>[\w]+)', array( 
       array(
         'methods'             => WP_REST_Server::READABLE,
         'callback'            => array( $this, 'get_item' ),
@@ -60,7 +59,7 @@ class ClassApiUtils extends WP_REST_Controller {
         ),
       ),
     ) );
-    register_rest_route( $namespace, '/' . $base . '/schema', array(
+    register_rest_route( $this->namespace, $this->base . '/schema', array(
       'methods'  => WP_REST_Server::READABLE,
       'callback' => array( $this, 'get_public_item_schema' ),
     ) );
@@ -121,7 +120,7 @@ class ClassApiUtils extends WP_REST_Controller {
       }
 
       $list = get_option('AJDT_API_LIST');
-
+      $url = "wp-json/".$this->namespace.'/'.$params['name'];
       $list[$params['name']] =  array(
                           "TableName" => $params['table'],
                           "MethodName" => $params['method'],
@@ -129,7 +128,8 @@ class ClassApiUtils extends WP_REST_Controller {
                           "ConditionColumn" => '',
                           "SelectedCondtion" => 'no condition',
                           "SelectedParameter" => 1,
-                          "query" => 'Select * from '.$params['table'].';'
+                          "Query" => 'Select * from '.$params['table'].';',
+                          "Url" => $url
                   );
       update_option('AJDT_API_LIST', $list);
       $data = get_option('AJDT_API_LIST');
@@ -152,7 +152,7 @@ class ClassApiUtils extends WP_REST_Controller {
 
     //TODO
     //print_r($request);
-    return new WP_REST_Response( implode( $request ), 200 );
+    return new WP_REST_Response( var_dump( $request ), 200 );
     $apiname = $params['apiname'];
     $apiList = get_option('AJDT_API_LIST');
 
