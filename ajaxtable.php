@@ -82,7 +82,7 @@ final class AjaxUtility {
         define( 'AJDT_FILE', __FILE__ );
         define( 'AJDT_PATH', dirname( AJDT_FILE ) );
         define( 'AJDT_INCLUDES', AJDT_PATH . '/includes' );
-        define( 'AJDT_URL', plugins_url( '', AJDT_FILE ) );//plugin_dir_url( __FILE__ )
+        define( 'AJDT_URL', plugins_url( '', AJDT_FILE ) );
         define( 'AJDT_ASSETS', AJDT_URL . '/assets' );
     }
 
@@ -163,7 +163,6 @@ final class AjaxUtility {
      */
     public function init_plugin() {
         $this->includes();
-        //$this->init_hooks();
         $this->init_classes();
         do_action( 'ajdt_loaded' );
     }
@@ -181,9 +180,9 @@ final class AjaxUtility {
         include_once AJDT_PATH . '/ajaxtable-ui.php';
         include_once AJDT_PATH . '/class-general-util.php';
         
-        // if ( $this->is_request( 'admin' ) ) { } require_once include_once
+        // if ( $this->is_request( 'admin' ) ) { } 
         // if ( $this->is_request( 'frontend' ) ) { }
-        // if ( class_exists( 'WeDevs_Dokan' ) ) { }
+        // if ( class_exists( 'okan' ) ) { }
 
         include_once AJDT_PATH . '/class-api-utils.php';
     }
@@ -196,8 +195,8 @@ final class AjaxUtility {
     public function init_classes() {
         // if ( $this->is_request( 'admin' ) ) { }
         // if ( $this->is_request( 'frontend' ) ) { }
-        // if ( class_exists( 'WeDevs_Dokan' ) ) { }
-        //$this->container['generalutil'] = new AjaxTable\GeneralUtil::init();
+        // if ( class_exists( 'okan' ) ) { }
+        //$this->container['generalutil'] = new AjaxTable\GeneralUtil();
         $this->container['restUtility'] = new ClassApiUtils();
         $this->container['rest'] = new AjaxTable\API_Registrar();
         $this->container['admin'] = new AjaxTable\Admin();

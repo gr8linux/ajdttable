@@ -53,9 +53,9 @@ jQuery(document).ready(function(){
                 'cols' : cols,
             },
             success: function(data, textStatus, jqXHR) {
-                alert('Saved successfully');
+                //alert('Saved successfully');
                 target.modal('hide');
-                fetchApiList();
+                fetchApiList(jQuery("#btnCreate"));
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Failed to save API '+jqXHR+textStatus+errorThrown);
@@ -67,16 +67,14 @@ jQuery(document).ready(function(){
     // });
 
 }); //document).ready
-
-    function deleteApi(e){
-        var apiname = jQuery(e).closest('tr').find('.apiname').text();
-        alert(apiname);
+    showSpinner = false;
+    function deleteApi(ctrl){
+        var apiname = jQuery(ctrl).closest('tr').find('.apiname').text();
         jQuery.ajax({
             type: "DELETE",
             url: window.location.href.split("wp-admin")[0] + 'wp-json/ajdt/v1/utility/' + apiname,
             success: function(data, textStatus, jqXHR) {
-                //alert('Deleted successfully' + data + textStatus + jqXHR); 
-                fetchApiList();
+                fetchApiList(ctrl);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Failed to delete API '+jqXHR+textStatus+errorThrown);
@@ -84,7 +82,10 @@ jQuery(document).ready(function(){
         });
     }
 
-    function fetchApiList(){
+    function fetchApiList(ctrl){
+        var button = jQuery(ctrl);
+        var buttonText = button.text();
+        button.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="false"></span>Loading...');
         var baseUrl = window.location.href.split("wp-admin")[0];
         jQuery.ajax({
             type: "GET",
@@ -94,14 +95,14 @@ jQuery(document).ready(function(){
                 jQuery.each(response, function(key, api){
                     var editButton = "<button type='button' style='font-size: 12px;' class='btn btn-success' data-toggle='modal' data-target='#saveApiModal' >Edit</button>";
                     var delButton = "<button class='btn btn-warning' style='font-size: 12px;' onclick='deleteApi(this)'>Delete</button>";
-                    var markup = "<tr><td class='apiname'>" + key + "</td><td>" 
-                                    + api.MethodName + "</td><td>" 
-                                    + api.TableName + "</td><td>" 
-                                    + api.SelectedColumn + "</td><td><a class='fas fa-user-edit' href='"+ baseUrl + api.Url +"' target='_blank'>" 
+                    var markup = "<tr><td class='apiname'>" + key + "</td><td class='method'>" 
+                                    + api.MethodName + "</td><td class='table'>" 
+                                    + api.TableName + "</td><td class='cols'>" 
+                                    + api.SelectedColumn + "</td><td class='url'><a class='fas fa-user-edit' href='"+ baseUrl + api.Url +"' target='_blank'>" 
                                     + api.Url + "</a></td><td>" 
-                                    + editButton + "&nbsp" 
                                     + delButton + "</td></tr>";
                     jQuery("#tbApiList tbody").append(markup);
+                    button.html(buttonText);
                 });
             },
             error: function (jqXHR, textStatus, errorThrown) {
