@@ -179,6 +179,8 @@ final class AjaxUtility {
         include_once AJDT_PATH . '/class-assets.php';
         include_once AJDT_PATH . '/class-admin.php';
         include_once AJDT_PATH . '/ajaxtable-ui.php';
+        include_once AJDT_PATH . '/class-general-util.php';
+        
         // if ( $this->is_request( 'admin' ) ) { } require_once include_once
         // if ( $this->is_request( 'frontend' ) ) { }
         // if ( class_exists( 'WeDevs_Dokan' ) ) { }
@@ -195,6 +197,7 @@ final class AjaxUtility {
         // if ( $this->is_request( 'admin' ) ) { }
         // if ( $this->is_request( 'frontend' ) ) { }
         // if ( class_exists( 'WeDevs_Dokan' ) ) { }
+        //$this->container['generalutil'] = new AjaxTable\GeneralUtil::init();
         $this->container['restUtility'] = new ClassApiUtils();
         $this->container['rest'] = new AjaxTable\API_Registrar();
         $this->container['admin'] = new AjaxTable\Admin();

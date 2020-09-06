@@ -1,4 +1,12 @@
 <?php
+function getTables(){
+    global $wpdb;
+    $sql = "SHOW TABLES LIKE '%%'";
+    return $wpdb->get_results($sql);
+}
+
+// $val = $this->container['generalutil']->getTables();
+// print_r($val);
 
 function custom_api_wp_register_ui()
 {
@@ -121,6 +129,7 @@ function custom_api_wp_list_api()
 function ajdt_list_api() { 
     $apiList = get_option('AJDT_API_LIST'); ?>
  <div class="wrap">
+
     <?php if (!empty($notice)): ?>
     <div id="notice" class="error"><p><?php echo $notice ?></p></div>
     <?php endif;?>
@@ -146,7 +155,7 @@ function ajdt_list_api() {
                                 $cols = $Api['SelectedColumn'];
                                 $url = $Api['Url'];
                                 $fullURL = get_site_url().'/'.$url;
-                                echo "<tr><td class='apiname'>$key</td><td class='method'>$method</td><td class='table'>$table</td><td class='cols'>$cols</td><td class='url'><a class='fas fa-user-edit' href='$fullURL'>$url</a></td>
+                                echo "<tr><td class='apiname'>$key</td><td class='method'>$method</td><td class='table'>$table</td><td class='cols'>$cols</td><td class='url'><a class='fas fa-user-edit' href='$fullURL' target='_blank'>$url</a></td>
                                 <td><button type='button' style='font-size: 12px;' class='btn btn-success' data-toggle='modal' data-target='#saveApiModal' >Edit</button>&nbsp
                                     <button class='btn btn-warning' style='font-size: 12px;' onclick='deleteApi(this)'>Delete</button></td></tr>";
                             }
@@ -181,15 +190,20 @@ aria-labelledby="saveApiModalLabel" aria-hidden="true" >
           </div>
         <div class="form-group">
             <label for="table-name" class="col-form-label">Table Name:</label>
-            <input type="text" class="form-control" id="table-name">
+            <select class="form-control" id="table-name">
+            <?php
+                $tables = getTables();
+                foreach ($tables as $index => $tableSet) {
+                    foreach ($tableSet as $table) {
+                        echo "<option value='$table'>$table</option>";
+                    }
+                }
+             ?>
+            </select>
           </div>
           <div class="form-group">
             <label for="cols" class="col-form-label">Columns:</label>
             <input type="text" class="form-control" id="cols">
-          </div>
-          <div class="form-group">
-            <label for="url" class="col-form-label">Columns:</label>
-            <input type="text" class="form-control" id="url">
           </div>
         </form>
       </div>

@@ -27,17 +27,12 @@ jQuery(document).ready(function(){
     jQuery('#saveApiModal').on('show.bs.modal', function (event) {
         var button = jQuery(event.relatedTarget) // Button that triggered the modal
         var _row = button.parents("tr");
-
-        var recipient = button.data('whatever') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = jQuery(this)
         //modal.find('.modal-title').text('New message to ' + recipient)
         modal.find('.modal-body #api-name').val(_row.find('.apiname').text());
         modal.find('.modal-body #http-method').val(_row.find('.method').text());
         modal.find('.modal-body #table-name').val(_row.find('.table').text());
         modal.find('.modal-body #cols').val(_row.find('.cols').text());
-        modal.find('.modal-body #url').val(_row.find('.url').text());
     });
     
     jQuery( "#btnSaveApi" ).click(function() {
@@ -102,7 +97,7 @@ jQuery(document).ready(function(){
                     var markup = "<tr><td class='apiname'>" + key + "</td><td>" 
                                     + api.MethodName + "</td><td>" 
                                     + api.TableName + "</td><td>" 
-                                    + api.SelectedColumn + "</td><td><a class='fas fa-user-edit' href='"+ baseUrl + api.Url +"'>" 
+                                    + api.SelectedColumn + "</td><td><a class='fas fa-user-edit' href='"+ baseUrl + api.Url +"' target='_blank'>" 
                                     + api.Url + "</a></td><td>" 
                                     + editButton + "&nbsp" 
                                     + delButton + "</td></tr>";
