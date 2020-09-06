@@ -34,7 +34,7 @@ class Admin {
      */
     public function admin_menu() {
         add_menu_page(__('AjaxTable Settings', 'ajdt'), __('AjaxTable Settings', 'ajdt'), 
-            'activate_plugins', 'ajdtsettings', 'custom_api_wp_register_ui');
+            'activate_plugins', 'ajdtsettings', 'ajdt_list_api');
 
         add_submenu_page('ajdtsettings', __('Tables', 'fgpt'), __('Tables', 'fgpt'), 
             'activate_plugins', 'ajdttables', 'RenderAjaxTable');

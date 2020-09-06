@@ -1,35 +1,35 @@
 <?php
 
-function custom_api_wp_register_ui()
-{
-    if (isset($_GET)) {
-        // $tab = $_GET['action'];
-        if (isset($_GET['action'])) {
-                $act = $_GET['action'];
-print("action: $act<br>");
-print_r($_GET);
-            print("$action = CleanUp($ _GET['action'])");
-            if ($action == 'addapi') {
-// print("<br>action: $act<br>");
-                print("CreateApi()");
-            } elseif ($action == 'delete') {
-                if (isset($_GET['api'])) {
-                    print("$api = CleanUp($ _GET['api']))");
-                    // print("<br>action: $act<br>");
-                }
-                print("custom_api_wp_delete_api($api)");
-            } elseif ($action == 'edit') {
-                if (isset($_GET['api'])) {
-                    $api = CleanUp($_GET['api']);
-                    // print("<br>action: $act<br>"); 
-                }
-                print("custom_api_wp_edit_api($api)");
-            }
-        } else
-            //custom_api_wp_list_api1();
-            ajdt_list_api();
-    }
-}
+// function custom_api_wp_register_ui()
+// {
+//     if (isset($_GET)) {
+//         // $tab = $_GET['action'];
+//         if (isset($_GET['action'])) {
+//                 $act = $_GET['action'];
+// print("action: $act<br>");
+// print_r($_GET);
+//             print("$action = CleanUp($ _GET['action'])");
+//             if ($action == 'addapi') {
+// // print("<br>action: $act<br>");
+//                 print("CreateApi()");
+//             } elseif ($action == 'delete') {
+//                 if (isset($_GET['api'])) {
+//                     print("$api = CleanUp($ _GET['api']))");
+//                     // print("<br>action: $act<br>");
+//                 }
+//                 print("custom_api_wp_delete_api($api)");
+//             } elseif ($action == 'edit') {
+//                 if (isset($_GET['api'])) {
+//                     $api = CleanUp($_GET['api']);
+//                     // print("<br>action: $act<br>"); 
+//                 }
+//                 print("custom_api_wp_edit_api($api)");
+//             }
+//         } else
+//             //custom_api_wp_list_api1();
+//             ajdt_list_api();
+//     }
+// }
 
 function ajdt_list_api() { 
     $apiList = get_option('AJDT_API_LIST'); ?>
