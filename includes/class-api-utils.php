@@ -1,14 +1,11 @@
 <?php
  //https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/
 class ClassApiUtils extends WP_REST_Controller {
-    protected $namespace = API_NAMESPACE;
-    protected $base = '/utility';
-    
     /**
      * Constructor
      */
     public function __construct() {
-        // // Init REST API routes.
+        // Init REST API routes.
         // add_action( 'rest_api_init', [ $this, 'register_rest_routes' ], 10 );
         $this->register_routes();
     }
@@ -17,7 +14,7 @@ class ClassApiUtils extends WP_REST_Controller {
    */
   public function register_routes() {
     //http://localhost/wp55/wp-json/ajdt/v1/utility
-    register_rest_route( $this->namespace, $this->base, array(
+    register_rest_route( API_NAMESPACE, API_UTIL_BASE, array(
       array(
         'methods'             => WP_REST_Server::READABLE,
         'callback'            => array( $this, 'get_items' ),
@@ -31,7 +28,7 @@ class ClassApiUtils extends WP_REST_Controller {
         'args'                => $this->get_endpoint_args_for_item_schema( true ),
       ),
     ) );    // \w - string param, \d - digits 
-    register_rest_route($this->namespace, $this->base . '/(?P<apiname>[\w]+)', array( 
+    register_rest_route( API_NAMESPACE, API_UTIL_BASE . '/(?P<apiname>[\w]+)', array( 
       array(
         'methods'             => WP_REST_Server::READABLE,
         'callback'            => array( $this, 'get_item' ),
@@ -59,7 +56,7 @@ class ClassApiUtils extends WP_REST_Controller {
         ),
       ),
     ) );
-    register_rest_route( $this->namespace, $this->base . '/schema', array(
+    register_rest_route( API_NAMESPACE, API_UTIL_BASE . '/schema', array(
       'methods'  => WP_REST_Server::READABLE,
       'callback' => array( $this, 'get_public_item_schema' ),
     ) );
@@ -120,7 +117,7 @@ class ClassApiUtils extends WP_REST_Controller {
       }
 
       $list = get_option(APILISTNAME);
-      $url = $this->namespace.'/'.$params['name'];
+      $url = API_NAMESPACE.'/'.$params['name'];
       $list[$params['name']] =  array(
                           "TableName" => $params['table'],
                           "MethodName" => $params['method'],

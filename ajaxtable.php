@@ -86,7 +86,7 @@ final class AjaxUtility {
         define( 'AJDT_ASSETS', AJDT_URL . '/assets' );
         define( 'APILISTNAME', 'AJDT_API_LIST');
         define( 'API_NAMESPACE', 'ajdt/v1');
-        define( 'API_BASE', '/utility');
+        define( 'API_UTIL_BASE', '/utility');
     }
 
     /**

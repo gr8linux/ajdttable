@@ -5,7 +5,6 @@ namespace AjaxTable;
  * API_Registrar class
  */
 class API_Registrar {
-    private $base = 'ajdt/v1';
     /**
      * Constructor
      */
@@ -21,15 +20,15 @@ class API_Registrar {
     function register_ajdt_routes(){
       $apiList = get_option(APILISTNAME);
       foreach ($apiList as $ApiName => $value) {
-        $route = '';
+        $base = '';
         if ($value['SelectedCondtion'] == 'no condition') {
-          $route = $ApiName;
+          $base = $ApiName;
         } else {
-          $route = $ApiName . '/(?P<id>[A-Za-z0-9]+)';
+          $base = $ApiName . '/(?P<id>[A-Za-z0-9]+)';
         }
 
         switch ($value['MethodName']) {
-            case 'GET': $this->register_GetRoute($route, $value); break;
+            case 'GET': $this->register_GetRoute($base, $value); break;
             case 'POST': echo 'Not Implemented'; break;
             case 'PUT': echo 'Not Implemented'; break;
             case 'DELETE': echo 'Not Implemented'; break;
@@ -40,8 +39,8 @@ class API_Registrar {
     /**
      * Processes GET Request
      */
-    function register_GetRoute($route, $args) {
-        register_rest_route($this->base, $route, array(
+    function register_GetRoute($base, $args) {
+        register_rest_route(API_NAMESPACE, $base, array(
           'methods'  => 'GET',
           'callback' => array( $this, 'process_api_get' ),
           'args' => $args
