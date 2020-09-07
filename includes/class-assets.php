@@ -116,6 +116,9 @@ class Assets {
             ],
             'bootstrap-vue-min' => [
                 'src' =>  '//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css'
+            ],
+            'ajdt-style' => [
+                'src' =>  AJDT_URL . '/css/style.css',
             ]
         ];
 
@@ -127,6 +130,7 @@ class Assets {
             // Enqueue all style
             wp_enqueue_style( 'bootstrap-vue' );
             wp_enqueue_style( 'bootstrap-vue-min' );
+            wp_enqueue_style( 'ajdt-style' );
 
             // Load scripts
             wp_enqueue_script( 'popper.min.js' );

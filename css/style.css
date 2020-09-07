@@ -1,0 +1,17 @@
+.postbox {
+    position: relative;
+    min-width: 25px;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    background: #fff;
+    width: 80%;
+}
+
+.method{
+    width: 50px;
+}
+
+.apiname{
+    font-weight: bold;
+    background:#e1f5c3;
+}

@@ -84,6 +84,9 @@ final class AjaxUtility {
         define( 'AJDT_INCLUDES', AJDT_PATH . '/includes' );
         define( 'AJDT_URL', plugins_url( '', AJDT_FILE ) );
         define( 'AJDT_ASSETS', AJDT_URL . '/assets' );
+        define( 'APILISTNAME', 'AJDT_API_LIST');
+        define( 'API_NAMESPACE', 'ajdt/v1');
+        define( 'API_BASE', '/utility');
     }
 
     /**
@@ -173,18 +176,17 @@ final class AjaxUtility {
      * @return void
      */
     public function includes() {
-        $namespace = '/ajdt/v1/';
-        include_once AJDT_PATH . '/class-api-registrar.php';
-        include_once AJDT_PATH . '/class-assets.php';
-        include_once AJDT_PATH . '/class-admin.php';
-        include_once AJDT_PATH . '/ajaxtable-ui.php';
-        include_once AJDT_PATH . '/class-general-util.php';
+        include_once AJDT_INCLUDES . '/class-api-registrar.php';
+        include_once AJDT_INCLUDES . '/class-assets.php';
+        include_once AJDT_INCLUDES . '/class-admin.php';
+        include_once AJDT_INCLUDES . '/class-ui.php';
+        include_once AJDT_INCLUDES . '/class-general-util.php';
         
         // if ( $this->is_request( 'admin' ) ) { } 
         // if ( $this->is_request( 'frontend' ) ) { }
         // if ( class_exists( 'okan' ) ) { }
 
-        include_once AJDT_PATH . '/class-api-utils.php';
+        include_once AJDT_INCLUDES . '/class-api-utils.php';
     }
 
     /**
@@ -210,6 +212,10 @@ final class AjaxUtility {
      */
     public function localization_setup() {
         load_plugin_textdomain( 'ajdt', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+    }
+
+    public function Test() {
+        print("...................................................Test()..AJDT_FILE : ".AJDT_FILE."<br>");
     }
 
 } // class AjaxUtility

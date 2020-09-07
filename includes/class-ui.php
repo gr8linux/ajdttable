@@ -32,8 +32,13 @@
 // }
 
 function ajdt_list_api() { 
-    $apiList = get_option('AJDT_API_LIST'); ?>
+    $apiList = get_option(APILISTNAME); ?>
  <div class="wrap">
+  <?php 
+  // print "Checking SCRIPT_DEBUG: ".defined( 'SCRIPT_DEBUG' ).", Value: ".SCRIPT_DEBUG;
+  // print "Checking AJDT_INCLUDES: ".defined( 'AJDT_INCLUDES' ).", Value: ".AJDT_INCLUDES;
+  //$ajdt->Test();
+   ?>
     <?php if (!empty($notice)): ?>
     <div id="notice" class="error"><p><?php echo $notice ?></p></div>
     <?php endif;?>
@@ -57,8 +62,8 @@ function ajdt_list_api() {
                                 $table = $Api['TableName'];
                                 $cols = $Api['SelectedColumn'];
                                 $url = $Api['Url'];
-                                $fullURL = get_site_url().'/'.$url;
-                                echo "<tr><td class='apiname'>$key</td><td class='method'>$method</td><td class='table'>$table</td><td class='cols'>$cols</td><td class='url'><a class='fas fa-user-edit' href='$fullURL' target='_blank'>$url</a></td>
+                                $fullURL = get_site_url().'/wp-json/'.$url;
+                                echo "<tr><td class='apiname'>[$key]</td><td class='method'>$method</td><td class='table'>$table</td><td class='cols'>$cols</td><td class='url'><a class='fas fa-user-edit' href='$fullURL' target='_blank'>$url</a></td>
                                 <td><button class='btn btn-warning' style='font-size: 12px;' onclick='deleteApi(this)'>Delete</button></td></tr>";
                             }
                             ?>

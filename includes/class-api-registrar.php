@@ -19,7 +19,7 @@ class API_Registrar {
      * Registers all the routes
      */
     function register_ajdt_routes(){
-      $apiList = get_option('AJDT_API_LIST');
+      $apiList = get_option(APILISTNAME);
       foreach ($apiList as $ApiName => $value) {
         $route = '';
         if ($value['SelectedCondtion'] == 'no condition') {
