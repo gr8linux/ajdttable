@@ -110,10 +110,10 @@ aria-labelledby="saveApiModalLabel" aria-hidden="true" >
              ?>
             </select>
           </div>
-          <div class="form-group">
+          <!--<div class="form-group">
             <label for="cols" class="col-form-label">Columns:</label>
             <input type="text" class="form-control" id="cols">
-          </div>
+          </div>-->
         </form>
       </div>
       <div class="modal-footer">

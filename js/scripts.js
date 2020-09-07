@@ -32,7 +32,7 @@ jQuery(document).ready(function(){
         modal.find('.modal-body #api-name').val(_row.find('.apiname').text());
         modal.find('.modal-body #http-method').val(_row.find('.method').text());
         modal.find('.modal-body #table-name').val(_row.find('.table').text());
-        modal.find('.modal-body #cols').val(_row.find('.cols').text());
+        //modal.find('.modal-body #cols').val(_row.find('.cols').text());
     });
     
     jQuery( "#btnSaveApi" ).click(function() {
@@ -40,7 +40,7 @@ jQuery(document).ready(function(){
         var apiname = target.find('#api-name').val();
         var httpMethod = target.find('#http-method').val();
         var tableName = target.find('#table-name').val();
-        var cols = target.find('#cols').val();
+        //var cols = target.find('#cols').val();
         //alert( "Modal submitted with text: " + apiname + httpMethod);
 
         jQuery.ajax({
@@ -50,7 +50,6 @@ jQuery(document).ready(function(){
                 'name' : apiname,
                 'table' : tableName,
                 'method' : httpMethod,
-                'cols' : cols,
             },
             success: function(data, textStatus, jqXHR) {
                 //alert('Saved successfully');

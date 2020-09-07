@@ -121,7 +121,7 @@ class ClassApiUtils extends WP_REST_Controller {
       $list[$params['name']] =  array(
                           "TableName" => $params['table'],
                           "MethodName" => $params['method'],
-                          "SelectedColumn" => 'name,age,email',
+                          "SelectedColumn" => 'All',
                           "ConditionColumn" => '',
                           "SelectedCondtion" => 'no condition',
                           "SelectedParameter" => 1,
