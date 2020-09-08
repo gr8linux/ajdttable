@@ -8,23 +8,7 @@ class Admin {
 
     public function __construct() {
         add_action( 'admin_menu', [ $this, 'admin_menu' ] );
-        add_shortcode('AjaxTableUtil', [ $this, 'handle_shortcode']); 
-    }
-
-    //[AjaxTableUtil] - checks for shortcode in wordpress and renders this div mount
-    function handle_shortcode() {
-        return '<div id="mount"></div>';
-    }
-    // add_shortcode('AjaxTableUtil', 'handle_shortcode'); 
-
-    // function vueAdminPage() {
-    //   add_menu_page('AjaxTable Settings', 'AjaxTable Settings', 'manage_options' ,__FILE__, 
-    //'RenderAjaxTable', 'dashicons-forms');
-    // }
-    // add_action('admin_menu', 'vueAdminPage');
-
-    function RenderAjaxTable(){
-        echo handle_shortcode();
+        add_shortcode('AJDT', 'handle_shortcode'); 
     }
 
     /**
@@ -36,11 +20,9 @@ class Admin {
         add_menu_page(__('AjaxTable Settings', 'ajdt'), __('AjaxTable Settings', 'ajdt'), 
             'activate_plugins', 'ajdtsettings', 'ajdt_list_api');
 
-        add_submenu_page('ajdtsettings', __('Tables', 'fgpt'), __('Tables', 'fgpt'), 
-            'activate_plugins', 'ajdttables', 'RenderAjaxTable');
+        add_submenu_page('ajdtsettings', __('Short Codes', 'fgpt'), __('Tables', 'fgpt'), 
+            'activate_plugins', 'ajdttables', 'render_shortcode');
     }
-
-    
 
     /**
     * Add POS gateways

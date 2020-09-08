@@ -214,24 +214,5 @@ final class AjaxUtility {
         load_plugin_textdomain( 'ajdt', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
     }
 
-    public function Test() {
-        print("...................................................Test()..AJDT_FILE : ".AJDT_FILE."<br>");
-    }
-
 } // class AjaxUtility
 $ajdt = AjaxUtility::init();
-
-// //[AjaxTableUtil] - checks for shortcode in wordpress and renders this div mount
-// function handle_shortcode() {
-//     return '<div id="mount"></div>';
-// }
-// add_shortcode('AjaxTableUtil', 'handle_shortcode'); 
-
-// function vueAdminPage() {
-//   add_menu_page('AjaxTable Settings', 'AjaxTable Settings', 'manage_options' ,__FILE__, 'RenderAjaxTable', 'dashicons-forms');
-// }
-// add_action('admin_menu', 'vueAdminPage');
-
-// function RenderAjaxTable(){
-//     echo handle_shortcode();
-// }
