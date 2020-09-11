@@ -20,8 +20,14 @@ class Admin {
         add_menu_page(__('AjaxTable Settings', 'ajdt'), __('AjaxTable Settings', 'ajdt'), 
             'activate_plugins', 'ajdtsettings', 'ajdt_list_api');
 
-        add_submenu_page('ajdtsettings', __('Short Codes', 'fgpt'), __('Tables', 'fgpt'), 
+        add_submenu_page('ajdtsettings', __('Short Codes', 'fgpt'), __('Short Codes', 'fgpt'), 
             'activate_plugins', 'ajdttables', 'render_shortcode');
+
+        // foreach (get_option(APILISTNAME) as $key => $Api) {
+        //     //echo do_shortcode("[AJDT api='$key' allapi='$AllKeys']");
+        //     add_submenu_page('ajdtsettings', __('Short Codes - '.$key, 'fgpt'), __('Short Codes - '.$key, 'fgpt'), 
+        //     'activate_plugins', 'ajdttables', 'render_shortcode');
+        // }
     }
 
     /**

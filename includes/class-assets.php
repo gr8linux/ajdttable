@@ -66,36 +66,48 @@ class Assets {
         global $wp_version;
 
         $scripts = [
-            'popper.min.js' => [
-                'src'       => 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',
+            'popper_min_js' => [
+                'src'       => 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
                 'in_footer' => true
             ],
-            'bootstrap.min' => [
-                'src'       => 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js',
+            'bootstrap_min_js' => [
+                'src'       => 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
                 'in_footer' => true
             ],
-            'polyfill' => [
-                'src'       => '//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver',
+            'bootstrap_table' => [
+                'src'       => 'https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js',
                 'in_footer' => true
             ],
-            'vue' => [
-                'src'       => '//unpkg.com/vue@latest/dist/vue.min.js',
+            // 'polyfill' => [
+            //     'src'       => '//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver',
+            //     'in_footer' => true
+            // ],
+            // 'vue' => [
+            //     'src'       => 'https://unpkg.com/vue@latest/dist/vue.min.js',
+            //     'in_footer' => true
+            // ],
+            // 'vue-router' => [
+            //     'src'       => 'https://unpkg.com/vue-router/dist/vue-router.js',
+            //     'in_footer' => true
+            // ],
+            // 'bootstrap-vue' => [
+            //     'src'       => '//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js',
+            //     'in_footer' => true
+            // ],
+            // 'bootstrap-vue-icons' => [
+            //     'src'       => '//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js',
+            //     'in_footer' => true
+            // ],
+            // 'ajdt-lib' => array(
+            //     'src'       => AJDT_URL . '/js/vueapp.js',
+            //     'in_footer' => true
+            // ),
+            'ajdt_bs_table' => [
+                'src'       => AJDT_URL . '/js/bs_table.js',
                 'in_footer' => true
             ],
-            'bootstrap-vue' => [
-                'src'       => '//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js',
-                'in_footer' => true
-            ],
-            'bootstrap-vue-icons' => [
-                'src'       => '//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js',
-                'in_footer' => true
-            ],
-            'ajdt-lib' => array(
-                'src'       => AJDT_URL . '/js/vueapp.js',
-                'in_footer' => true
-            ),
-            'ajdt-scripts' => array(
-                'src'       => AJDT_URL . '/js/scripts.js',
+            'ajdt_api_util' => array(
+                'src'       => AJDT_URL . '/js/api_util.js',
                 'in_footer' => true
             )
         ];
@@ -111,13 +123,16 @@ class Assets {
     public function get_styles() {
 
         $styles = [
-            'bootstrap-vue' => [
-                'src' =>  '//unpkg.com/bootstrap/dist/css/bootstrap.min.css'
+            'bootstrap_min_css' => [
+                'src' =>  'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
             ],
-            'bootstrap-vue-min' => [
-                'src' =>  '//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css'
+            'all_css' => [
+                'src' =>  'https://use.fontawesome.com/releases/v5.6.3/css/all.css'
             ],
-            'ajdt-style' => [
+            'bootstrap_table_min_css' => [
+                'src' =>  'https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css'
+            ],
+            'ajdt_style' => [
                 'src' =>  AJDT_URL . '/css/style.css',
             ]
         ];
@@ -127,22 +142,24 @@ class Assets {
 
     public function enqueue_all_scripts() {
        //if ( ! is_admin() ) {
-            // Enqueue all style
-            wp_enqueue_style( 'bootstrap-vue' );
-            wp_enqueue_style( 'bootstrap-vue-min' );
-            wp_enqueue_style( 'ajdt-style' );
-
-            // Load scripts
-            wp_enqueue_script( 'popper.min.js' );
-            wp_enqueue_script( 'bootstrap.min' );
-            wp_enqueue_script( 'polyfill' );
-            wp_enqueue_script( 'vue' );
-            wp_enqueue_script( 'bootstrap-vue' );
-            wp_enqueue_script( 'bootstrap-vue-icons' );
+            // Enqueue all style 
+            wp_enqueue_style( 'bootstrap_min_css' );
+            wp_enqueue_style( 'all_css' );
+            wp_enqueue_style( 'bootstrap_table_min_css' );
+            wp_enqueue_style( 'ajdt_style' );
+ 
+            // Load scripts 
+            wp_enqueue_script( 'popper_min_js' );
+            wp_enqueue_script( 'bootstrap_min_js' );
+            wp_enqueue_script( 'bootstrap_table' );
+            // wp_enqueue_script( 'vue' );
+            // wp_enqueue_script( 'vue-router' );
+            // wp_enqueue_script( 'bootstrap-vue' );
+            // wp_enqueue_script( 'bootstrap-vue-icons' );
 
             do_action( 'ajdt_load_forntend_scripts' );
-            wp_enqueue_script( 'ajdt-lib' );
-            wp_enqueue_script( 'ajdt-scripts' );
+            wp_enqueue_script( 'ajdt_bs_table' );
+            wp_enqueue_script( 'ajdt_api_util' );
             
        // }
     }
