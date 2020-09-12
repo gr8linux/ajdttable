@@ -78,30 +78,6 @@ class Assets {
                 'src'       => 'https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js',
                 'in_footer' => true
             ],
-            // 'polyfill' => [
-            //     'src'       => '//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver',
-            //     'in_footer' => true
-            // ],
-            // 'vue' => [
-            //     'src'       => 'https://unpkg.com/vue@latest/dist/vue.min.js',
-            //     'in_footer' => true
-            // ],
-            // 'vue-router' => [
-            //     'src'       => 'https://unpkg.com/vue-router/dist/vue-router.js',
-            //     'in_footer' => true
-            // ],
-            // 'bootstrap-vue' => [
-            //     'src'       => '//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js',
-            //     'in_footer' => true
-            // ],
-            // 'bootstrap-vue-icons' => [
-            //     'src'       => '//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js',
-            //     'in_footer' => true
-            // ],
-            // 'ajdt-lib' => array(
-            //     'src'       => AJDT_URL . '/js/vueapp.js',
-            //     'in_footer' => true
-            // ),
             'ajdt_bs_table' => [
                 'src'       => AJDT_URL . '/js/bs_table.js',
                 'in_footer' => true
@@ -152,23 +128,15 @@ class Assets {
             wp_enqueue_script( 'popper_min_js' );
             wp_enqueue_script( 'bootstrap_min_js' );
             wp_enqueue_script( 'bootstrap_table' );
-            // wp_enqueue_script( 'vue' );
-            // wp_enqueue_script( 'vue-router' );
-            // wp_enqueue_script( 'bootstrap-vue' );
-            // wp_enqueue_script( 'bootstrap-vue-icons' );
 
             do_action( 'ajdt_load_forntend_scripts' );
             wp_enqueue_script( 'ajdt_bs_table' );
             wp_enqueue_script( 'ajdt_api_util' );
-            
        // }
     }
 
     /**
      * Set localize script data
-     *
-     * @since 1.0.0
-     *
      * @return void
      */
     public function register_localize() {
