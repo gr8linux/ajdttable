@@ -15,6 +15,17 @@ jQuery("div[id^='mount_']").each(function( i, elem ) {
               }
           ];
 
+defColumns = [
+  { field: 'id', title: 'Item ID' },
+  { field: 'name', title: 'Name' },
+  { field: 'age', title: 'Age' },
+  { field: 'email', title: 'Email' },
+  { field: 'place', title: 'Place' },
+  { field: 'created_at', title: 'Created At' },
+];
+
+    
+
   jQuery(table).bootstrapTable({
   toggle:"table",
   height:"460",
@@ -32,8 +43,9 @@ jQuery("div[id^='mount_']").each(function( i, elem ) {
 
 function ajaxRequest(params) {
     var apiname = this.$el.attr('id').split('_')[1]; 
-    alert(apiname);
-    var url = 'https://examples.wenzhixin.net.cn/examples/bootstrap_table/data';
+    //alert(apiname);
+    var url = window.location.href.split("wp-admin")[0] + 'wp-json/ajdt/v1/' + apiname;
+    // var url = 'https://examples.wenzhixin.net.cn/examples/bootstrap_table/data';
     jQuery.get(url + '?' + jQuery.param(params.data)).then(function (res) {
         params.success(res)
     })

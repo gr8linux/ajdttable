@@ -17,8 +17,8 @@
      * @return void
      */
     function render_shortcode(){
-        echo do_shortcode("[AJDT api='sha1']");
-        // echo do_shortcode("[AJDT api='sha2']");
+        // echo do_shortcode("[AJDT api='sha1']");
+        echo do_shortcode("[AJDT api='sha2']");
         // echo do_shortcode("[AJDT api='sha3']");
         // echo do_shortcode("[AJDT api='sha4']");
         // foreach ($apiList as $key => $Api) {
@@ -33,45 +33,47 @@
      */
     function handle_shortcode($atts) { 
         $api = $atts['api'];
-        $apiList = get_option(APILISTNAME);
-        $allapi = implode(',', array_keys($apiList));
-        //print_r("API Name requested is : $api");
-        //return "<div id='mount_$api' api='$api' allapi='$allapi' />"; 
+        $allapi = get_allapi_names();  //AjaxTable\ApiCache()::init()->get_allapi_names(); 
+        $colNames = get_column_names($api);
+        if(empty($colNames))
+            return "<div id='notice' class='error'><p>The requested API doesn't exists...!. 
+            Please check valid APIs in 'AjaxTable Settings' page</p></div>";
+
         return "<div id='mount_$api'>
-                    <input type='hidden' value='$allapi'></input>
+                    <input type='hidden' name='apiNames' value='$allapi'></input>
+                    <input type='hidden' name='colNames' value='$colNames'></input>
                     <table id='table_$api' ></table>
                 </div>"; 
     }
 
-    function handle_shortcode1($atts) { 
-        $api = $atts['api'];
-        $allapi = $atts['allapi'];
-        //print_r("API Name requested is : $api");
-        //return "<div id='mount_$api' api='$api' allapi='$allapi' />"; 
-        return "<div id='mount_$api'>
-                    <input type='hidden' name='AllApi' value='$allapi'>
-                    <table data-toggle='table'>
-                        <thead>
-                            <tr>
-                            <th>Item ID</th>
-                            <th>Item Name</th>
-                            <th>Item Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <td>1</td>
-                            <td>Item 1</td>
-                            <td>$1</td>
-                            </tr>
-                            <tr>
-                            <td>2</td>
-                            <td>Item 2</td>
-                            <td>$2</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>"; 
+    function get_column_names($api) { 
+        $cols = '';
+        if(is_api_exists($api)){
+            $fullURL = get_site_url().'/wp-json/'.get_option(APILISTNAME)[$api]['Url'];
+            $restData = json_decode( wp_remote_retrieve_body( wp_remote_get($fullURL) ) );
+            $cols = '';
+            foreach ($restData[0] as $key => $object) 
+                $cols = "$cols,$key";
+        }
+        return $cols; 
+    }
+
+
+    function get_allapi_names() { 
+        $apiList = get_option(APILISTNAME);
+        return implode(',', array_keys($apiList));
+    }
+
+    function is_api_exists($api) { 
+        $apiList = get_option(APILISTNAME);
+        $isExist = false;
+        foreach($apiList as $k => $v){
+            if($k==$api){
+                $isExist = true;
+                break;
+            }
+        }
+        return $isExist;
     }
 
     /**
