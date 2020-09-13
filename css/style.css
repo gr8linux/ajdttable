@@ -15,3 +15,23 @@
     font-weight: bold;
     background:#e1f5c3;
 }
+
+.ajdt-inbox-message {
+    position: relative;
+    color: #757575;
+    background: #f0f0f0;
+    border-radius: 2px;
+    font-size: 13px;
+    font-size: .8125rem;
+    margin: 0 0 24px;
+    -ms-box-orient: horizontal;
+}
+
+.ajdt-message-title {
+    font-weight: 700;
+}
+
+.ajdt-message-wrapper > div {
+    padding: 16px 24px;
+    border: 1px solid #ddd;
+}

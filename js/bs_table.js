@@ -11,13 +11,9 @@ jQuery("div[id^='mount_']").each(function( i, elem ) {
   jQuery(elem).find('table').bootstrapTable({
     toggle:"table",
     height:"460",
-    ajax:"ajaxRequest",
-    //ajaxOptions: "ajaxOptions",
-    buttonsClass: 'success',
-    showColumns: true,
-    pagination: true,
-    search: true,
-    customSort: "customSort",
+    ajax:"ajaxRequest", //ajaxOptions: "ajaxOptions",
+    buttonsClass: 'warning',
+    showColumns: true, pagination: true, search: true,
     columns: defColumns         
   });
 

@@ -1,5 +1,79 @@
 <?php
-function ajdt_list_api() {  ?>
+
+function ajdt_list_api() { ?>
+  <section class="ajdt-message-wrapper">
+    <div class="ajdt-inbox-message">
+        <div >
+          <h3 class="ajdt-message-title">Help us improve the Ajax Table </h3>
+          <div class="woocommerce-inbox-message__text">
+              <span>We'd love your input to shape the future of the WooCommerce Home screen together. 
+              Feel free to share any feedback, ideas or suggestions that you have.</span>
+              <p>Display the details about APIs</p>
+          </div>
+        </div>
+        <div class="woocommerce-inbox-message__actions">
+          <a href="https://automattic.survey.fm/home-screen-survey" class="components-button is-secondary">Share feedback</a>
+          <div class="components-dropdown">
+              <button type="button" class="components-button is-tertiary">Dismiss</button>
+          </div>
+        </div>
+    </div>
+  </section>
+<div id='toolbar'>
+  <div class="form-inline" role="form">
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#saveApiModal" id="btnCreate"><i class='fa fa-plus-square'></i> Create</button>
+    <button type="button" class="btn btn-info" onclick='fetchBsApiList(this)'><i class="fa fa-retweet"></i> Refresh</button>
+  </div>
+  <table id='tblUtility'></table>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="saveApiModal" tabindex="-1" role="dialog" 
+aria-labelledby="saveApiModalLabel" aria-hidden="true" >       
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="saveApiModalLabel">Create New API</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="api-name" class="col-form-label">Api Name:</label>
+            <input type="text" class="form-control" id="api-name">
+          </div>
+          <div class="form-group">
+            <label for="http-method" class="col-form-label">Http Method:</label>
+            <select class="form-control" id="http-method">  
+                <option value='GET'>GET</option>
+            </select>
+          </div>
+        <div class="form-group">
+            <label for="table-name" class="col-form-label">Table Name:</label>
+            <select class="form-control" id="table-name">
+            <?php
+              $tables = getTables();
+              foreach ($tables as $index => $tableSet) {
+                  foreach ($tableSet as $table) {
+                      echo "<option value='$table'>$table</option>";
+                  }
+              }
+             ?>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" id="btnSaveApi" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+<?php }
+
+function ajdt_list_api1() {  ?>
  <div class="wrap">
   <?php 
   // print "Checking SCRIPT_DEBUG: ".defined( 'SCRIPT_DEBUG' ).", Value: ".SCRIPT_DEBUG;
@@ -90,4 +164,6 @@ aria-labelledby="saveApiModalLabel" aria-hidden="true" >
     </div>
   </div>
 </div>
-<?php } ?>
+<?php 
+ajdt_list_api1();
+} ?>
