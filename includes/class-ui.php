@@ -4,17 +4,20 @@ function ajdt_list_api() { ?>
   <section class="ajdt-message-wrapper">
     <div class="ajdt-inbox-message">
         <div >
-          <h3 class="ajdt-message-title">Help us improve the Ajax Table </h3>
+          <h5 class="ajdt-message-title">Ajax Table creates REST API for the selected database tables. 
+            It enables user to perform CRUD operations in the table using generated REST API</h5>
           <div class="woocommerce-inbox-message__text">
-              <span>We'd love your input to shape the future of the WooCommerce Home screen together. 
-              Feel free to share any feedback, ideas or suggestions that you have.</span>
-              <p>Display the details about APIs</p>
-          </div>
-        </div>
-        <div class="woocommerce-inbox-message__actions">
-          <a href="https://automattic.survey.fm/home-screen-survey" class="components-button is-secondary">Share feedback</a>
-          <div class="components-dropdown">
-              <button type="button" class="components-button is-tertiary">Dismiss</button>
+              <span>Simple Table Manager enables editing table records and exporting them to CSV files through a minimal database interface from your dashboard.
+              <ul>
+                <li>Simply CRUD table contents on your wp-admin screen</li>
+                <li>Search and sort table records</li>
+                <li>No knowledge of MySQL or PHP required</li>
+                <li>Export table records to a CSV file</li>
+                <li>Does not allow users to change the structure of the table</li>
+                <li>Unlike ‘full featured’ database management plugins, it does not allow users to 
+                alter the structure of the table but requires no knowledge on MySQL or PHP.</li>
+              </ul>              
+              </span>
           </div>
         </div>
     </div>

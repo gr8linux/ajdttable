@@ -7,11 +7,11 @@ namespace AjaxTable;
 class Assets {
 
     function __construct() {
-        if ( is_admin() ) {
+        //if ( is_admin() ) {
             add_action( 'admin_enqueue_scripts', [ $this, 'register' ], 5 );
-        } else {
-            add_action( 'wepos_enqueue_scripts', [ $this, 'register' ], 5 );
-        }
+        // } else {
+        //     add_action( 'wepos_enqueue_scripts', [ $this, 'register' ], 5 );
+        // }
     }
 
     /**
@@ -145,19 +145,17 @@ class Assets {
                 'privusername'    => 'shajeeb shahul hameed',
                 'root'    => esc_url_raw( get_rest_url() ),
                 'nonce'   => wp_create_nonce( 'wp_rest' ),
-                'wcversion' => 'wc/v3',
-                'posversion' => 'adjt/v1',
+                'posversion' => '1.1.1',
             ),
             'ajaxurl'                      => admin_url( 'admin-ajax.php' ),
-            'nonce'                        => wp_create_nonce( 'wepos_nonce' ),
+            'nonce'                        => wp_create_nonce( 'ajdt_nonce' ),
             'libs'                         => [],
             'routeComponents'              => array( 'default' => null ),
             'assets_url'                   => AJDT_ASSETS,
             'ajax_loader'                  => AJDT_ASSETS . '/images/spinner-2x.gif',
             'logout_url'                   => wp_logout_url( site_url() )
         ] );
-
-        wp_localize_script( 'adjt-vendor', 'adjt', $localize_data );
+        wp_localize_script( 'ajdt_api_util', 'ajdt', $localize_data );
     }
 
      /**

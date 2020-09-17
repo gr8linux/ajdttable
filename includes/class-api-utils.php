@@ -203,8 +203,9 @@ class ClassApiUtils extends WP_REST_Controller {
    * @return WP_Error|bool
    */
   public function get_items_permissions_check( $request ) {
-    return true; //<--use to make readable by all
-    //return current_user_can('administrator');
+    //return true; //<--use to make readable by all
+    return current_user_can('administrator');
+    //return current_user_has_role( array( 'editor', 'administrator' ) );
   }
  
   /**

@@ -21,14 +21,14 @@
     color: #757575;
     background: #f0f0f0;
     border-radius: 2px;
-    font-size: 13px;
+    font-size: 9px;
     font-size: .8125rem;
     margin: 0 0 24px;
     -ms-box-orient: horizontal;
 }
 
 .ajdt-message-title {
-    font-weight: 700;
+    font-weight: 250;
 }
 
 .ajdt-message-wrapper > div {

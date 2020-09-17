@@ -1,4 +1,3 @@
-//https://examples.bootstrap-table.com/#
 jQuery("div[id^='mount_']").each(function( i, elem ) {
   var apis = jQuery(elem).find('input').val().split(',');
   var defColumns = [];
@@ -21,8 +20,7 @@ jQuery("div[id^='mount_']").each(function( i, elem ) {
 
 function ajaxRequest(params) {
     var apiname = this.$el.attr('id').split('_')[1]; 
-    var url = window.location.href.split("wp-admin")[0] + 'wp-json/ajdt/v1/' + apiname;
-    // var url = 'https://examples.wenzhixin.net.cn/examples/bootstrap_table/data';
+    var url = ajdt.rest.root + 'ajdt/v1/' + apiname;
     jQuery.get(url + '?' + jQuery.param(params.data)).then(function (res) {
         params.success(res)
     })

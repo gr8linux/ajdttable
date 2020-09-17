@@ -1,7 +1,7 @@
 jQuery('#tblUtility').bootstrapTable({
     toggle:"table",
     height:"460",
-    ajax:"utilAjaxRequest", //ajaxOptions: "ajaxOptions",
+    ajax:"utilAjaxRequest", ajaxOptions: "ajaxOptions",
     buttonsClass: 'success',
     showColumns: true,  showRefresh: true, showFullscreen: true, showToggle: true,
     pagination: true,  search: true, customSort: "customSort",
@@ -14,7 +14,7 @@ jQuery('#tblUtility').bootstrapTable({
         { 
             field: "Url", title: "Url",
             formatter: function (value, row, index) {
-              return "<a href='" + window.location.href.split("wp-admin")[0] + 'wp-json/' + value +"' target='_blank'>"+ value +'</a>';
+              return "<a href='" + ajdt.rest.root + value +"' target='_blank'>"+ value +'</a>';
             },
         },
         {
@@ -35,7 +35,7 @@ jQuery('#tblUtility').bootstrapTable({
                 if(toDelete){
                     jQuery.ajax({
                         type: "DELETE",
-                        url: window.location.href.split("wp-admin")[0] + 'wp-json/ajdt/v1/utility/' + row.Key,
+                        url: ajdt.rest.root + 'ajdt/v1/utility/' + row.Key,
                         success: function(data, textStatus, jqXHR) {
                             jQuery('#tblUtility').bootstrapTable('refresh');
                         },
@@ -51,7 +51,7 @@ jQuery('#tblUtility').bootstrapTable({
 });
 
 function utilAjaxRequest(params) { 
-    var url = window.location.href.split("wp-admin")[0] + 'wp-json/ajdt/v1/utility';
+    var url = ajdt.rest.root + 'ajdt/v1/utility';
     tableData = [];
     jQuery.get(url + '?' + jQuery.param(params.data)).then(function (res) {
         jQuery.each( res, function( key, val ) {
@@ -64,7 +64,15 @@ function utilAjaxRequest(params) {
 
 window.ajaxOptions = {
     beforeSend: function (xhr) {
-        xhr.setRequestHeader('Custom-Auth-Token', 'custom-auth-token')
+        //xhr.setRequestHeader('Custom-Auth-Token', 'custom-auth-token')
+        //console.log(xhr);
+        xhr.setRequestHeader('X-WP-Nonce', ajdt.rest.nonce);
+        //if (override) {
+            //xhr.setRequestHeader('X-HTTP-Method-Override', override);
+        //}
+        if (beforeSend) {
+            return beforeSend.apply(this, arguments);
+        }
     }
 }
 
@@ -84,7 +92,7 @@ jQuery( "#btnSaveApi" ).click(function() {
 
     jQuery.ajax({
         type: "POST",
-        url: window.location.href.split("wp-admin")[0] + 'wp-json/ajdt/v1/utility',
+        url: ajdt.rest.root + 'ajdt/v1/utility',
         data: {
             'name' : apiname,
             'table' : tableName,
