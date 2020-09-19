@@ -32,10 +32,12 @@ jQuery('#tblUtility').bootstrapTable({
               'click .delData': function (e, value, row) {
                 var toDelete = confirm("Do you want to delete API: " + row.Key + "?");
                 if(toDelete){
-                    new AJDT_API('utility').delete(row.Key)
-                        .done( ( res, status, xhr ) => {
+                    new AJDT_API('utility')
+                        .delete(row.Key)
+                        .done(( res, status, xhr ) => {
                             jQuery('#tblUtility').bootstrapTable('refresh');
-                        }).fail( response => {
+                        })
+                        .fail( response => {
                             alert(JSON.stringify(response));
                         });
                 }
@@ -47,15 +49,18 @@ jQuery('#tblUtility').bootstrapTable({
 
 function fetchRecords(params) { 
     tableData = [];
-    new AJDT_API('utility').get().done(( resp, status, xhr ) => {
-            jQuery.each( resp, function( key, val ) {
-            tableData.push({Key: key, TableName: val.TableName, MethodName: val.MethodName, 
-                SelectedColumn: val.SelectedColumn, Url: val.Url});
-        });
-        params.success(tableData);
-    }).fail( resp => {
+    new AJDT_API('utility')
+        .get()
+        .done(( resp, status, xhr ) => {
+                jQuery.each( resp, function( key, val ) {
+                tableData.push({Key: key, TableName: val.TableName, MethodName: val.MethodName, 
+                    SelectedColumn: val.SelectedColumn, Url: val.Url});
+            });
+            params.success(tableData);
+        })
+        .fail( resp => {
             alert(JSON.stringify(resp));
-    });
+        });
 }
 
 function fetchBsApiList(ctrl){
@@ -67,19 +72,21 @@ function fetchBsApiList(ctrl){
 }
 
 jQuery( "#btnSaveApi" ).click(function() {
-    var target = jQuery(this).closest('.modal');
-    var apiname = target.find('#api-name').val();
-    var httpMethod = target.find('#http-method').val();
-    var tableName = target.find('#table-name').val();
-    new AJDT_API('utility').post( 
-        {
+    var modalPopup = jQuery(this).closest('.modal');
+    var apiname = modalPopup.find('#api-name').val();
+    var httpMethod = modalPopup.find('#http-method').val();
+    var tableName = modalPopup.find('#table-name').val();
+    new AJDT_API('utility')
+        .post({
             'name' : apiname,
             'table' : tableName,
             'method' : httpMethod,
-        }).done( ( res, status, xhr ) => {
-            target.modal('hide');
+        })
+        .done(( res, status, xhr ) => {
+            modalPopup.modal('hide');
             jQuery('#tblUtility').bootstrapTable('refresh');
-        }).fail( response => {
+        })
+        .fail( response => {
             alert(JSON.stringify(response));
         });
 });

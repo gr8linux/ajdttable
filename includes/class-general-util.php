@@ -21,7 +21,7 @@
         // echo do_shortcode("[AJDT api='sha3']");
         // echo do_shortcode("[AJDT api='sha7']");
         // foreach ($apiList as $key => $Api) {
-        //     echo do_shortcode("[AJDT api='$key' allapi='$AllKeys']");
+        //     echo do_shortcode("[AJDT api='$key']");
         // }
     }
 
