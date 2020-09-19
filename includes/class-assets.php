@@ -78,14 +78,22 @@ class Assets {
                 'src'       => 'https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js',
                 'in_footer' => true
             ],
+            'ajdt_api' => [
+                'src'       => AJDT_URL . '/js/api.js',
+                'in_footer' => true
+            ],
             'ajdt_bs_table' => [
                 'src'       => AJDT_URL . '/js/bs_table.js',
                 'in_footer' => true
             ],
-            'ajdt_api_util' => array(
+            'ajdt_api_oldutil' => [
+                'src'       => AJDT_URL . '/js/oldapiutil.js',
+                'in_footer' => true
+            ],
+            'ajdt_api_util' => [
                 'src'       => AJDT_URL . '/js/api_util.js',
                 'in_footer' => true
-            )
+            ] 
         ];
 
         return $scripts;
@@ -130,8 +138,11 @@ class Assets {
             wp_enqueue_script( 'bootstrap_table' );
 
             do_action( 'ajdt_load_forntend_scripts' );
+            wp_enqueue_script( 'ajdt_api' );
             wp_enqueue_script( 'ajdt_bs_table' );
+            // wp_enqueue_script( 'ajdt_api_oldutil' );
             wp_enqueue_script( 'ajdt_api_util' );
+            
        // }
     }
 

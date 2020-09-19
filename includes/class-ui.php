@@ -27,7 +27,7 @@ function ajdt_list_api() { ?>
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#saveApiModal" id="btnCreate"><i class='fa fa-plus-square'></i> Create</button>
     <button type="button" class="btn btn-info" onclick='fetchBsApiList(this)'><i class="fa fa-retweet"></i> Refresh</button>
   </div>
-  <table id='tblUtility'></table>
+  <table id='tblUtility' ></table>
 </div>
 
 <div class="modal fade bd-example-modal-lg" id="saveApiModal" tabindex="-1" role="dialog" 
@@ -123,50 +123,7 @@ function ajdt_list_api1() {  ?>
       </div>
     </div>
 </div>
-<div class="modal fade bd-example-modal-lg" id="saveApiModal" tabindex="-1" role="dialog" 
-aria-labelledby="saveApiModalLabel" aria-hidden="true" >       
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="saveApiModalLabel">Create New API</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="api-name" class="col-form-label">Api Name:</label>
-            <input type="text" class="form-control" id="api-name">
-          </div>
-          <div class="form-group">
-            <label for="http-method" class="col-form-label">Http Method:</label>
-            <select class="form-control" id="http-method">  
-                <option value='GET'>GET</option>
-            </select>
-          </div>
-        <div class="form-group">
-            <label for="table-name" class="col-form-label">Table Name:</label>
-            <select class="form-control" id="table-name">
-            <?php
-              $tables = getTables();
-              foreach ($tables as $index => $tableSet) {
-                  foreach ($tableSet as $table) {
-                      echo "<option value='$table'>$table</option>";
-                  }
-              }
-             ?>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" id="btnSaveApi" class="btn btn-primary">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 <?php 
 ajdt_list_api1();
 } ?>

@@ -1,7 +1,7 @@
 jQuery('#tblUtility').bootstrapTable({
     toggle:"table",
     height:"460",
-    ajax:"utilAjaxRequest", ajaxOptions: "ajaxOptions",
+    ajax:"fetchRecords", 
     buttonsClass: 'success',
     showColumns: true,  showRefresh: true, showFullscreen: true, showToggle: true,
     pagination: true,  search: true, customSort: "customSort",
@@ -30,19 +30,14 @@ jQuery('#tblUtility').bootstrapTable({
                 alert(JSON.stringify(row))
               },
               'click .delData': function (e, value, row) {
-                //alert(JSON.stringify(row))
                 var toDelete = confirm("Do you want to delete API: " + row.Key + "?");
                 if(toDelete){
-                    jQuery.ajax({
-                        type: "DELETE",
-                        url: ajdt.rest.root + 'ajdt/v1/utility/' + row.Key,
-                        success: function(data, textStatus, jqXHR) {
+                    new AJDT_API('utility').delete(row.Key)
+                        .done( ( res, status, xhr ) => {
                             jQuery('#tblUtility').bootstrapTable('refresh');
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            alert('Failed to delete API '+jqXHR+textStatus+errorThrown);
-                        }
-                    });
+                        }).fail( response => {
+                            alert(JSON.stringify(response));
+                        });
                 }
               }
             }
@@ -50,30 +45,17 @@ jQuery('#tblUtility').bootstrapTable({
     ]         
 });
 
-function utilAjaxRequest(params) { 
-    var url = ajdt.rest.root + 'ajdt/v1/utility';
+function fetchRecords(params) { 
     tableData = [];
-    jQuery.get(url + '?' + jQuery.param(params.data)).then(function (res) {
-        jQuery.each( res, function( key, val ) {
-             tableData.push({Key: key, TableName: val.TableName, MethodName: val.MethodName, 
-                 SelectedColumn: val.SelectedColumn, Url: val.Url});
+    new AJDT_API('utility').get().done(( resp, status, xhr ) => {
+            jQuery.each( resp, function( key, val ) {
+            tableData.push({Key: key, TableName: val.TableName, MethodName: val.MethodName, 
+                SelectedColumn: val.SelectedColumn, Url: val.Url});
         });
         params.success(tableData);
-    })
-}
-
-window.ajaxOptions = {
-    beforeSend: function (xhr) {
-        //xhr.setRequestHeader('Custom-Auth-Token', 'custom-auth-token')
-        //console.log(xhr);
-        xhr.setRequestHeader('X-WP-Nonce', ajdt.rest.nonce);
-        //if (override) {
-            //xhr.setRequestHeader('X-HTTP-Method-Override', override);
-        //}
-        if (beforeSend) {
-            return beforeSend.apply(this, arguments);
-        }
-    }
+    }).fail( resp => {
+            alert(JSON.stringify(resp));
+    });
 }
 
 function fetchBsApiList(ctrl){
@@ -89,21 +71,15 @@ jQuery( "#btnSaveApi" ).click(function() {
     var apiname = target.find('#api-name').val();
     var httpMethod = target.find('#http-method').val();
     var tableName = target.find('#table-name').val();
-
-    jQuery.ajax({
-        type: "POST",
-        url: ajdt.rest.root + 'ajdt/v1/utility',
-        data: {
+    new AJDT_API('utility').post( 
+        {
             'name' : apiname,
             'table' : tableName,
             'method' : httpMethod,
-        },
-        success: function(data, textStatus, jqXHR) {
+        }).done( ( res, status, xhr ) => {
             target.modal('hide');
             jQuery('#tblUtility').bootstrapTable('refresh');
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            alert('Failed to save API '+jqXHR+textStatus+errorThrown);
-        }
-    });
+        }).fail( response => {
+            alert(JSON.stringify(response));
+        });
 });

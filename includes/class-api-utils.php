@@ -225,7 +225,7 @@ class ClassApiUtils extends WP_REST_Controller {
    * @return WP_Error|bool
    */
   public function create_item_permissions_check( $request ) {
-    return true; //current_user_can( 'edit_something' );
+    return current_user_can('administrator'); //current_user_can( 'edit_something' );
   }
  
   /**
