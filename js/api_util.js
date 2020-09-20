@@ -74,13 +74,28 @@ function fetchBsApiList(ctrl){
 jQuery( "#btnSaveApi" ).click(function() {
     var modalPopup = jQuery(this).closest('.modal');
     var apiname = modalPopup.find('#api-name').val();
-    var httpMethod = modalPopup.find('#http-method').val();
     var tableName = modalPopup.find('#table-name').val();
+
+    var httpMethodValues = new Array();
+    jQuery.each(modalPopup.find("input[name='http-method[]']:checked"), function() {
+        httpMethodValues.push(jQuery(this).val());
+    });
+
+    if(apiname == ''){
+        alert("Api Name is required..!");
+        return;
+    }
+
+    if (httpMethodValues === undefined || httpMethodValues.length == 0) {
+        alert("HTTP Method is required..!");
+        return;
+    }
+
     new AJDT_API('utility')
         .post({
             'name' : apiname,
             'table' : tableName,
-            'method' : httpMethod,
+            'method' : httpMethodValues.join(),
         })
         .done(( res, status, xhr ) => {
             modalPopup.modal('hide');

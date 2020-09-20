@@ -7,17 +7,6 @@ function ajdt_list_api() { ?>
           <h5 class="ajdt-message-title">Ajax Table creates REST API for the selected database tables. 
             It enables user to perform CRUD operations in the table using generated REST API</h5>
           <div class="woocommerce-inbox-message__text">
-              <span>Simple Table Manager enables editing table records and exporting them to CSV files through a minimal database interface from your dashboard.
-              <ul>
-                <li>Simply CRUD table contents on your wp-admin screen</li>
-                <li>Search and sort table records</li>
-                <li>No knowledge of MySQL or PHP required</li>
-                <li>Export table records to a CSV file</li>
-                <li>Does not allow users to change the structure of the table</li>
-                <li>Unlike ‘full featured’ database management plugins, it does not allow users to 
-                alter the structure of the table but requires no knowledge on MySQL or PHP.</li>
-              </ul>              
-              </span>
           </div>
         </div>
     </div>
@@ -44,13 +33,30 @@ aria-labelledby="saveApiModalLabel" aria-hidden="true" >
         <form>
           <div class="form-group">
             <label for="api-name" class="col-form-label">Api Name:</label>
-            <input type="text" class="form-control" id="api-name">
+            <input type="text" class="form-control" id="api-name" placeholder="Enter API name" required="" oninvalid="this.setCustomValidity('Please Enter valid API Name')">
           </div>
           <div class="form-group">
-            <label for="http-method" class="col-form-label">Http Method:</label>
-            <select class="form-control" id="http-method">  
+            <label class="col-form-label">Http Method:</label>
+            <br>
+            <!--<select class="form-control" id="http-method">  
                 <option value='GET'>GET</option>
-            </select>
+            </select>-->
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="http-method[]" value="GET">
+              <label class="form-check-label" for="inlineCheckbox1">GET</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="http-method[]" value="POST">
+              <label class="form-check-label" for="inlineCheckbox2">POST</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="http-method[]" value="PUT">
+              <label class="form-check-label" for="inlineCheckbox2">PUT</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="http-method[]" value="DELETE">
+              <label class="form-check-label" for="inlineCheckbox2">DELETE</label>
+            </div>
           </div>
         <div class="form-group">
             <label for="table-name" class="col-form-label">Table Name:</label>

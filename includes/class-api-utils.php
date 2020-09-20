@@ -109,12 +109,12 @@ class ClassApiUtils extends WP_REST_Controller {
           return new WP_Error( 'cant-create', __( 'DB Table Name is required..', 'text-domain'), array( 'status' => 500 ) );
       }
 
-      $methods = array("GET", "POST");
-      if ( !isset( $params['method'] ) ) {
-          return new WP_Error( 'cant-create', __( 'HTTP method is required.', 'text-domain' ), array( 'status' => 500 ) );
-      } else if (!in_array($params['method'], $methods)){
-          return new WP_Error( 'cant-create', __( 'Invalid HTTP method. Permitted HTTP methods are GET and POST.', 'text-domain' ), array( 'status' => 500 ) );
-      }
+      // $methods = array("GET", "POST");
+      // if ( !isset( $params['method'] ) ) {
+      //     return new WP_Error( 'cant-create', __( 'HTTP method is required.', 'text-domain' ), array( 'status' => 500 ) );
+      // } else if (!in_array($params['method'], $methods)){
+      //     return new WP_Error( 'cant-create', __( 'Invalid HTTP method. Permitted HTTP methods are GET and POST.', 'text-domain' ), array( 'status' => 500 ) );
+      // }
 
       $list = get_option(APILISTNAME);
       $url = API_NAMESPACE.'/'.$params['name'];
