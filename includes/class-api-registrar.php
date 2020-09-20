@@ -27,19 +27,28 @@ class API_Registrar {
           $base = $ApiName . '/(?P<id>[A-Za-z0-9]+)';
         }
 
-        switch ($value['MethodName']) {
-            case 'GET': 
-                register_rest_route(API_NAMESPACE, $base, [
-                    'methods'  => 'GET',
-                    'callback' => array( $this, 'process_api_get' ),
-                    'args' => $value
-                ]);
-                break;
-            case 'POST': echo 'Not Implemented'; break;
-            case 'PUT': echo 'Not Implemented'; break;
-            case 'DELETE': echo 'Not Implemented'; break;
-        }
+        $this->process_routes($value['MethodName'], $base, $value); 
       }
+    }
+
+    /**
+     * Processes HTTP Methods
+     */
+    function process_routes($methods, $base, $args) {
+        foreach(explode(",", $methods) as $method) {
+            switch ($method) {
+                case 'GET': 
+                    register_rest_route(API_NAMESPACE, $base, [
+                        'methods'  => 'GET',
+                        'callback' => array( $this, 'process_api_get' ),
+                        'args' => $args
+                    ]);
+                    break;
+                case 'POST': break;
+                case 'PUT': break;
+                case 'DELETE': break;
+            }
+        }
     }
 
     /**
