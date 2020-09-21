@@ -11,6 +11,17 @@
     }
 
     /**
+     * Retrieves keys of the table 
+     * @return void
+     */
+    function getTableKey($table){
+        global $wpdb;
+        $sql = "SELECT COLUMN_NAME FROM   information_schema.key_column_usage 
+        WHERE  table_schema = schema() AND constraint_name = 'PRIMARY' AND table_name = '$table'";
+        return $wpdb->get_row($sql);
+    }
+
+    /**
      * Checks for wordpress shortcode and renders it based on number of Api List 
      * Example: [AJDT api="sha1"]
      * @return void

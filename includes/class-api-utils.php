@@ -1,6 +1,7 @@
 <?php
  //https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/
 class ClassApiUtils extends WP_REST_Controller {
+   
     /**
      * Constructor
      */
@@ -9,11 +10,11 @@ class ClassApiUtils extends WP_REST_Controller {
         // add_action( 'rest_api_init', [ $this, 'register_rest_routes' ], 10 );
         $this->register_routes();
     }
+
   /**
    * Register the routes for the objects of the controller.
    */
-  public function register_routes() {
-    //http://localhost/wp55/wp-json/ajdt/v1/utility
+  public function register_routes() { //http://localhost/wp55/wp-json/ajdt/v1/utility
     register_rest_route( API_NAMESPACE, API_UTIL_BASE, array(
       array(
         'methods'             => WP_REST_Server::READABLE,
@@ -56,12 +57,29 @@ class ClassApiUtils extends WP_REST_Controller {
         ),
       ),
     ) );
-    register_rest_route( API_NAMESPACE, API_UTIL_BASE . '/schema', array(
+    register_rest_route( API_NAMESPACE, API_UTIL_BASE . '/schema/(?P<table>[\w]+)', array(
       'methods'  => WP_REST_Server::READABLE,
-      'callback' => array( $this, 'get_public_item_schema' ),
+      'callback' => array( $this, 'get_key_column' ),
+      'permission_callback' => array( $this, 'get_items_permissions_check' ),
     ) );
   }
  
+   /**
+   * Get Primay Column of a table
+   *
+   * @param Table Name.
+   * @return WP_Error|WP_REST_Response
+   */
+  public function get_key_column( $request ) {
+      $params = $request->get_params();
+      $keys = getTableKey($params['table']);
+
+    if(!$keys)
+      return new WP_Error( 'no-data', __( 'No Primary Key found..!', 'text-domain' ), array( 'status' => 500 ) );
+
+      return new WP_REST_Response($keys, 200 );
+  }
+
   /**
    * Get a collection of items
    *
@@ -105,6 +123,10 @@ class ClassApiUtils extends WP_REST_Controller {
           return new WP_Error( 'cant-create', __( 'Api Name is required..', 'text-domain' ), array( 'status' => 500 ) );
       }
 
+      if ( !isset( $params['primarykey'] ) ) {
+          return new WP_Error( 'cant-create', __( 'Primarykey is required..', 'text-domain' ), array( 'status' => 500 ) );
+      }
+
       if ( !isset( $params['table'] ) ) {
           return new WP_Error( 'cant-create', __( 'DB Table Name is required..', 'text-domain'), array( 'status' => 500 ) );
       }
@@ -121,6 +143,7 @@ class ClassApiUtils extends WP_REST_Controller {
       $list[$params['name']] =  array(
                           "TableName" => $params['table'],
                           "MethodName" => $params['method'],
+                          "PrimaryKey" => $params['primarykey'],
                           "SelectedColumn" => 'All',
                           "ConditionColumn" => '',
                           "SelectedCondtion" => 'no condition',
@@ -135,7 +158,7 @@ class ClassApiUtils extends WP_REST_Controller {
         return new WP_REST_Response( $data, 200 );
       }
  
-    return new WP_Error( 'cant-create', __( 'message', 'text-domain' ), array( 'status' => 500 ) );
+    return new WP_Error( 'cant-create', __( 'Unexpected exception happened..!', 'text-domain' ), array( 'status' => 500 ) );
   }
  
   /**
@@ -147,8 +170,6 @@ class ClassApiUtils extends WP_REST_Controller {
   public function update_item( $request ) {
     $params = $request->get_params();
 
-    //TODO
-    //print_r($request);
     return new WP_REST_Response( var_dump( $request ), 200 );
     $apiname = $params['apiname'];
     $apiList = get_option(APILISTNAME);
@@ -205,7 +226,6 @@ class ClassApiUtils extends WP_REST_Controller {
   public function get_items_permissions_check( $request ) {
     //return true; //<--use to make readable by all
     return current_user_can('administrator');
-    //return current_user_has_role( array( 'editor', 'administrator' ) );
   }
  
   /**

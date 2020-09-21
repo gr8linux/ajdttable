@@ -8,9 +8,9 @@ jQuery('#tblUtility').bootstrapTable({
     columns: [
         { field: 'state', checkbox: true },
         { field: "Key", title: "ApiName" },
-        { field: "TableName", title: "TableName" },
-        { field: "MethodName", title: "MethodName" },
-        { field: "SelectedColumn", title: "SelectedColumn" },
+        { field: "TableName", title: "Table" },
+        { field: "MethodName", title: "Http Method(s)" },
+        { field: "PrimaryKey", title: "Primary Key" },
         { 
             field: "Url", title: "Url",
             formatter: function (value, row, index) {
@@ -54,7 +54,7 @@ function fetchRecords(params) {
         .done(( resp, status, xhr ) => {
                 jQuery.each( resp, function( key, val ) {
                 tableData.push({Key: key, TableName: val.TableName, MethodName: val.MethodName, 
-                    SelectedColumn: val.SelectedColumn, Url: val.Url});
+                    PrimaryKey: val.PrimaryKey, Url: val.Url});
             });
             params.success(tableData);
         })
@@ -71,9 +71,24 @@ function fetchBsApiList(ctrl){
     button.html(buttonText);
 }
 
+jQuery('#table-name').change(function() {
+    var table = jQuery(this).val();
+    new AJDT_API('utility/schema/' + table)
+        .get()
+        .done(( resp, status, xhr ) => {
+            jQuery('#primary-key').val(resp.COLUMN_NAME);    
+        })
+        .fail( resp => {
+            alert(resp.status + ' : ' + resp.responseJSON.message);
+            jQuery('#primary-key').val('');
+        });
+});
+
+
 jQuery( "#btnSaveApi" ).click(function() {
     var modalPopup = jQuery(this).closest('.modal');
     var apiname = modalPopup.find('#api-name').val();
+    var primaryKey = modalPopup.find('#primary-key').val();
     var tableName = modalPopup.find('#table-name').val();
 
     var httpMethodValues = new Array();
@@ -83,6 +98,11 @@ jQuery( "#btnSaveApi" ).click(function() {
 
     if(apiname == ''){
         alert("Api Name is required..!");
+        return;
+    }
+
+    if(primaryKey == ''){
+        alert("The selected table doesn't contain Primary Key..! Please select different table.");
         return;
     }
 
@@ -96,6 +116,7 @@ jQuery( "#btnSaveApi" ).click(function() {
             'name' : apiname,
             'table' : tableName,
             'method' : httpMethodValues.join(),
+            'primarykey': primaryKey,
         })
         .done(( res, status, xhr ) => {
             modalPopup.modal('hide');

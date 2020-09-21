@@ -32,7 +32,7 @@ class API_Registrar {
     }
 
     /**
-     * Processes HTTP Methods
+     * Process HTTP Methods
      */
     function process_routes($methods, $base, $args) {
         foreach(explode(",", $methods) as $method) {
@@ -52,9 +52,45 @@ class API_Registrar {
     }
 
     /**
-     * Processes GET Request
+     * Process GET Request
      */
     function process_api_get($request) {
+        global $wpdb;
+        //print_r($request);
+        $need =  $request->get_attributes();
+        $GetQuery = $need['args']['Query'];
+        $SelectedCondtion = $need['args']['SelectedCondtion'];
+        if (($SelectedCondtion == 'no condition')) {
+            $data = $wpdb->get_results("{$GetQuery}");
+            return $data;
+        } else {
+            $Spliting = explode($SelectedCondtion, $GetQuery);
+            $MainQuery = $Spliting[0];
+            $type = gettype($request['id']);
+            if ($type == "string") {
+                $param = '"' . $request['id'] . '"';
+            }
+            if ($type == "integer") {
+                $param = $request['id'];
+            }
+            // echo $MainQuery;
+            if ('&amp;gt;' == $SelectedCondtion)
+                $SelectedCondtion = '>';
+            if ('less than' == $SelectedCondtion)
+                $SelectedCondtion = '<';
+            $SelectedCondtion = $SelectedCondtion.' ';
+            // echo $SelectedCondtion;
+            // echo $request['id'];
+            $data = $wpdb->get_results("{$MainQuery} {$SelectedCondtion} {$param}");
+
+            return $data;
+        }
+    }
+
+   /**
+     * Process DELETE Request
+     */
+    function process_api_delete($request) {
         global $wpdb;
         //print_r($request);
         $need =  $request->get_attributes();

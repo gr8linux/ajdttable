@@ -19,59 +19,74 @@ function ajdt_list_api() { ?>
   <table id='tblUtility' ></table>
 </div>
 
-<div class="modal fade bd-example-modal-lg" id="saveApiModal" tabindex="-1" role="dialog" 
-aria-labelledby="saveApiModalLabel" aria-hidden="true" >       
+<!-- Modal -->
+<div class="modal fade" id="saveApiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="saveApiModalLabel">Create New API</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Create New API</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="api-name" class="col-form-label">Api Name:</label>
-            <input type="text" class="form-control" id="api-name" placeholder="Enter API name" required="" oninvalid="this.setCustomValidity('Please Enter valid API Name')">
-          </div>
-          <div class="form-group">
-            <label class="col-form-label">Http Method:</label>
-            <br>
-            <!--<select class="form-control" id="http-method">  
-                <option value='GET'>GET</option>
-            </select>-->
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="http-method[]" value="GET">
-              <label class="form-check-label" for="inlineCheckbox1">GET</label>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="api-name" class="col-form-label">Api Name:</label>
+                <input type="text" class="form-control" id="api-name" placeholder="Enter API name" required="" oninvalid="this.setCustomValidity('Please Enter valid API Name')">
+              </div>
             </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="http-method[]" value="POST">
-              <label class="form-check-label" for="inlineCheckbox2">POST</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="http-method[]" value="PUT">
-              <label class="form-check-label" for="inlineCheckbox2">PUT</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="http-method[]" value="DELETE">
-              <label class="form-check-label" for="inlineCheckbox2">DELETE</label>
-            </div>
-          </div>
-        <div class="form-group">
-            <label for="table-name" class="col-form-label">Table Name:</label>
-            <select class="form-control" id="table-name">
-            <?php
-              $tables = getTables();
-              foreach ($tables as $index => $tableSet) {
-                  foreach ($tableSet as $table) {
-                      echo "<option value='$table'>$table</option>";
+            <div class="col-md-6 ml-auto">
+              <div class="form-group">
+                <label for="table-name" class="col-form-label">Table Name:</label>
+                <select class="form-control" id="table-name">
+                <?php
+                  $tables = getTables();
+                  foreach ($tables as $index => $tableSet) {
+                      foreach ($tableSet as $table) {
+                          echo "<option value='$table'>$table</option>";
+                      }
                   }
-              }
-             ?>
-            </select>
+                  ?>
+                </select>
+              </div>      
+            </div>
           </div>
-        </form>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="col-form-label">Http Method:</label>
+                <br>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" name="http-method[]" value="GET">
+                  <label class="form-check-label" for="inlineCheckbox1">GET</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" name="http-method[]" value="POST">
+                  <label class="form-check-label" for="inlineCheckbox2">POST</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" name="http-method[]" value="PUT">
+                  <label class="form-check-label" for="inlineCheckbox2">PUT</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" name="http-method[]" value="DELETE">
+                  <label class="form-check-label" for="inlineCheckbox2">DELETE</label>
+                </div>
+              </div>            
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="primary-key" class="col-form-label">Primary Key:</label>
+                <input type="text" class="form-control" id="primary-key" disabled> </input>
+              </div>
+            </div>
+          </div>          
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -81,7 +96,6 @@ aria-labelledby="saveApiModalLabel" aria-hidden="true" >
   </div>
 </div>
 <?php }
-
 function ajdt_list_api1() {  ?>
  <div class="wrap">
   <?php 
@@ -129,7 +143,11 @@ function ajdt_list_api1() {  ?>
       </div>
     </div>
 </div>
-
 <?php 
 ajdt_list_api1();
 } ?>
+
+
+
+
+

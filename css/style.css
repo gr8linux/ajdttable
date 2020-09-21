@@ -16,6 +16,19 @@
     background:#e1f5c3;
 }
 
+.modal-header {
+    padding:9px 15px;
+    color: #eee;
+    border-bottom:1px solid #eee;
+    background-color: #1aaf6e;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+ }
+
 .ajdt-inbox-message {
     position: relative;
     color: #757575;
