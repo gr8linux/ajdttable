@@ -200,7 +200,7 @@ final class AjaxUtility {
         // if ( class_exists( 'okan' ) ) { }
         //$this->container['generalutil'] = new AjaxTable\GeneralUtil();
         $this->container['restUtility'] = new ClassApiUtils();
-        $this->container['rest'] = new AjaxTable\API_Registrar();
+        $this->container['rest'] = new API_Registrar();
         $this->container['admin'] = new AjaxTable\Admin();
         $this->container['assets'] = new AjaxTable\Assets();
     }

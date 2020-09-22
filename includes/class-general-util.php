@@ -22,6 +22,16 @@
     }
 
     /**
+     * Retrieves keys of the table 
+     * @return void
+     */
+    function getTableColumns($table){
+        global $wpdb;
+        $sql = "SHOW COLUMNS FROM $table WHERE Extra <> 'auto_increment'";
+        return $wpdb->get_results($sql);
+    }
+
+    /**
      * Checks for wordpress shortcode and renders it based on number of Api List 
      * Example: [AJDT api="sha1"]
      * @return void

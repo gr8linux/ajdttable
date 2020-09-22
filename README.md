@@ -14,11 +14,10 @@
 'AJAX Table with Custom CRUD API' is a multipurpose wordpress plugin data table used for displaying custom data from the database.
 	
 ### Features: ###
-	
 * Generates Custom REST API
 * Integrates Bootsrap tables
 * Search records with AJAX
-* Filter visibility by data category. Different categories pages = different ( + global ) filters. One shop for everything
+* Filter visibility by data category. Different categories pages = different ( + global ) filters.
 * No reloading, only ajax
  
 ### How It Works: ###
