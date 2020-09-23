@@ -75,8 +75,8 @@ class API_Registrar extends WP_REST_Controller {
    * @return WP_Error|bool
    */
   public function ajdt_get_items_permissions_check( $request ) {
-    return true; //<--use to make readable by all
-    //return current_user_can('administrator');
+    //return true; //<--use to make readable by all
+    return current_user_can('administrator');
   }
 
     /**
@@ -117,8 +117,8 @@ class API_Registrar extends WP_REST_Controller {
     * @return WP_Error|bool
     */
     public function ajdt_create_item_permissions_check( $request ) {
-        return true;
-        //return current_user_can('administrator'); //current_user_can( 'edit_something' );
+        //return true;
+        return current_user_can('administrator'); //current_user_can( 'edit_something' );
     }
 
     /**
@@ -140,39 +140,25 @@ class API_Registrar extends WP_REST_Controller {
     public function ajdt_create_item( $request ) {
         $params = $request->get_params();
         $attrs =  $request->get_attributes()['args'];
-        $keyId = $request->get_params()['keyId'];
         $table = $attrs['args']['TableName'];
         $primaryKey = $attrs['args']['PrimaryKey'];
 
-        
         try {
-
-            //$cols = getTableColumns($table);
-            $insertKeyValues = [];
-            foreach(getTableColumns($table) as $column){
-                array_push($insertKeyValues, $column->Field);
+            $tableColumns = getTableColumns($table);
+            $validCols = $insertData = [];
+            foreach($tableColumns as $column){
+                $insertData[$column->Field] = $params[$column->Field];
+                $validCols[$column->Field] = "";
             }
-            return new WP_REST_Response($insertKeyValues, 200 );
 
             global $wpdb;
-            $insertKeyValues = [
-                "prod_id" => $val['id'],
-                "quantity" => 0,
-                "created_at" => date("Y-m-d")
-            ];
-
-            $result = $wpdb->insert($table, $insertKeyValues);
+            $result = $wpdb->insert($table, $insertData);
             if($result)
                 return new WP_REST_Response("Inserted successfully. No of rows affected: $result", 200 );
             else
-                return new WP_Error( 'cant-insert', __('Invalid records for insertion, no rows added', 'text-domain' ), array( 'status' => 501 ) );
-
+                return new WP_Error( 'cant-insert', __('No rows added. Valid Columns: '.json_encode($validCols), 'text-domain' ), array( 'status' => 501 ) );
         } catch (Exception $e) {
             return new WP_Error( 'cant-insert', __('Error! '. $wpdb->last_error, 'text-domain' ), array( 'status' => 500 ) );
-        }
-
-        if ( is_array( $data ) ) {
-            return new WP_REST_Response( $data, 200 );
         }
 
         return new WP_Error( 'cant-insert', __( 'Unexpected exception happened..!', 'text-domain' ), array( 'status' => 500 ) );
