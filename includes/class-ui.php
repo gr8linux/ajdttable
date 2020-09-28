@@ -68,10 +68,6 @@ function ajdt_list_api() { ?>
                   <label class="form-check-label" for="inlineCheckbox2">POST</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="http-method[]" value="PUT">
-                  <label class="form-check-label" for="inlineCheckbox2">PUT</label>
-                </div>
-                <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" name="http-method[]" value="DELETE">
                   <label class="form-check-label" for="inlineCheckbox2">DELETE</label>
                 </div>

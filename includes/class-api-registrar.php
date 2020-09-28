@@ -34,6 +34,7 @@ class API_Registrar extends WP_REST_Controller {
      * Process HTTP Methods
      */
     function process_routes($methods, $base, $args) {
+        $keyId = '/(?P<keyId>[\w]+)';
         foreach(explode(",", $methods) as $method) {
             switch ($method) {
                 case 'GET': 
@@ -43,24 +44,37 @@ class API_Registrar extends WP_REST_Controller {
                             'permission_callback' => array( $this, 'ajdt_get_items_permissions_check' ),
                             'args'                => $args,
                          ] );
+                    register_rest_route(API_NAMESPACE, $base.$keyId,  [
+                            'methods'             => WP_REST_Server::READABLE,
+                            'callback'            => array( $this, 'ajdt_get_item' ),
+                            'permission_callback' => array( $this, 'ajdt_get_items_permissions_check' ),
+                            'args'                => $args,
+                         ] );
                     break;
                 case 'POST':
                     register_rest_route(API_NAMESPACE, $base,  [
                             'methods'             => WP_REST_Server::CREATABLE,
                             'callback'            => array( $this, 'ajdt_create_item' ),
-                            'permission_callback' => array( $this, 'ajdt_create_item_permissions_check' ),
+                            'permission_callback' => array( $this, 'ajdt_crud_item_permissions_check' ),
                             'args'                => [
-                                'schema' => $this->get_endpoint_args_for_item_schema( true ),
+                                'schema' => $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
                                 'args' => $args
                             ],
                          ] );
                     break;
-                case 'PUT': break;
+                case 'PUT':
+                    register_rest_route(API_NAMESPACE, $base.$keyId,  [
+                            'methods'             => WP_REST_Server::EDITABLE,
+                            'callback'            => array( $this, 'ajdt_update_item' ),
+                            'permission_callback' => array( $this, 'ajdt_crud_item_permissions_check' ),
+                            'args'                => $this->get_collection_params()
+                         ] );
+                    break;
                 case 'DELETE':  
-                    register_rest_route(API_NAMESPACE, $base. '/(?P<keyId>[\w]+)',  [
+                    register_rest_route(API_NAMESPACE, $base.$keyId,  [
                             'methods'             => WP_REST_Server::DELETABLE,
                             'callback'            => array( $this, 'ajdt_delete_item' ),
-                            'permission_callback' => array( $this, 'ajdt_delete_item_permissions_check' ),
+                            'permission_callback' => array( $this, 'ajdt_crud_item_permissions_check' ),
                             'args'                => $args,
                          ] );
                     break;
@@ -68,16 +82,40 @@ class API_Registrar extends WP_REST_Controller {
         }
     }
 
-  /**
-   * Check if a given request has access to get items
-   *
-   * @param WP_REST_Request $request Full data about the request.
-   * @return WP_Error|bool
-   */
-  public function ajdt_get_items_permissions_check( $request ) {
-    //return true; //<--use to make readable by all
-    return current_user_can('administrator');
-  }
+    /**
+    * Check if a given request has access to get items
+    *
+    * @param WP_REST_Request $request Full data about the request.
+    * @return WP_Error|bool
+    */
+    public function ajdt_get_items_permissions_check( $request ) {
+        return current_user_can('administrator');
+    }
+
+    /**
+    * Check if a given request has access to create items
+    *
+    * @param WP_REST_Request $request Full data about the request.
+    * @return WP_Error|bool
+    */
+    public function ajdt_crud_item_permissions_check( $request ) {
+        return current_user_can('administrator'); 
+    }
+
+    /**
+     * Process GET Request
+     */
+    function ajdt_get_item($request) {
+        $attrs =  $request->get_attributes();
+        $table = $attrs['args']['TableName'];
+        $primaryKey = $attrs['args']['PrimaryKey'];
+        $keyId = $request->get_params()['keyId'];
+
+        global $wpdb;
+        $result = $wpdb->get_row("SELECT * FROM $table WHERE $primaryKey = $keyId");
+
+        return new WP_REST_Response($result, 200 );
+    }
 
     /**
      * Process GET Request
@@ -111,26 +149,45 @@ class API_Registrar extends WP_REST_Controller {
     }
 
     /**
-    * Check if a given request has access to create items
+    * Create one item from the collection
     *
     * @param WP_REST_Request $request Full data about the request.
-    * @return WP_Error|bool
+    * @return WP_Error|WP_REST_Response
     */
-    public function ajdt_create_item_permissions_check( $request ) {
-        //return true;
-        return current_user_can('administrator'); //current_user_can( 'edit_something' );
+    public function ajdt_update_item( $request ) {
+        $params = $request->get_params();
+        $attrs =  $request->get_attributes()['args'];
+        $table = $attrs['args']['TableName'];
+        $primaryKey = $attrs['args']['PrimaryKey'];
+        $keyId = $request->get_params()['keyId'];
+        try {
+            $tableColumns = getTableColumns($table);
+            $validCols = $updateData = [];
+            foreach($tableColumns as $column){
+                if(!empty($params[$column->Field]))
+                    $updateData[$column->Field] = $params[$column->Field];
+
+                $validCols[$column->Field] = "";
+            }
+
+            // $vvv['postdata'] = $_POST;
+            // $vvv['attrs'] = $request->get_attributes();
+            // $vvv['par'] = $request->get_params();
+            return new WP_REST_Response("PUT http method is not implemented. Please contact shajeeb.s@gmail.com for support", 200 );
+
+            global $wpdb;
+            $result = $wpdb->update($table, $updateData, [ "$primaryKey" => $keyId ]);
+            if($result)
+                return new WP_REST_Response("Updated successfully. No of rows affected: $result", 200 );
+            else
+                return new WP_Error( 'cant-insert', __('No rows added. Valid Columns: '.json_encode($validCols), 'text-domain' ), array( 'status' => 501 ) );
+        } catch (Exception $e) {
+            return new WP_Error( 'cant-insert', __('Error! '. $wpdb->last_error, 'text-domain' ), array( 'status' => 500 ) );
+        }
+
+        return new WP_Error( 'cant-insert', __( 'Unexpected exception happened..!', 'text-domain' ), array( 'status' => 500 ) );
     }
 
-    /**
-    * Check if a given request has access to delete a specific item
-    *
-    * @param WP_REST_Request $request Full data about the request.
-    * @return WP_Error|bool
-    */
-    public function ajdt_delete_item_permissions_check( $request ) {
-        return $this->ajdt_create_item_permissions_check( $request );
-    }
-  
     /**
     * Create one item from the collection
     *
@@ -142,12 +199,13 @@ class API_Registrar extends WP_REST_Controller {
         $attrs =  $request->get_attributes()['args'];
         $table = $attrs['args']['TableName'];
         $primaryKey = $attrs['args']['PrimaryKey'];
-
         try {
             $tableColumns = getTableColumns($table);
             $validCols = $insertData = [];
             foreach($tableColumns as $column){
-                $insertData[$column->Field] = $params[$column->Field];
+                if(!empty($params[$column->Field]))
+                    $insertData[$column->Field] = $params[$column->Field];
+
                 $validCols[$column->Field] = "";
             }
 
@@ -186,31 +244,4 @@ class API_Registrar extends WP_REST_Controller {
             return new WP_Error( 'no-deletion', __('Error! '. $wpdb->last_error, 'text-domain' ), array( 'status' => 500 ) );
         }
     }
-
-    /**
-     * Register REST API routes.
-     *
-     * @since 1.2.0
-     */
-    // public function register_rest_routes() {
-    //     $controllers = [
-    //         '\WeDevs\ERP\API\Utility_Controller'
-    //     ];
-
-    //     if ( erp_is_module_active( 'crm' ) ) {
-    //         $controllers = array_merge( $controllers, [
-    //             '\WeDevs\ERP\API\Contacts_Controller',
-    //             '\WeDevs\ERP\API\Contacts_Groups_Controller',
-    //             '\WeDevs\ERP\API\Activities_Controller',
-    //             '\WeDevs\ERP\API\Schedules_Controller',
-    //         ] );
-    //     }
-
-    //     $controllers = apply_filters( 'erp_rest_api_controllers', $controllers );
-
-    //     foreach ( $controllers as $controller ) {
-    //         $controller = new $controller();
-    //         $controller->register_routes();
-    //     }
-    // }
 }

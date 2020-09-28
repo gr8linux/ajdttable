@@ -7,7 +7,6 @@ class ClassApiUtils extends WP_REST_Controller {
      */
     public function __construct() {
         // Init REST API routes.
-        // add_action( 'rest_api_init', [ $this, 'register_rest_routes' ], 10 );
         $this->register_routes();
     }
 
@@ -130,13 +129,6 @@ class ClassApiUtils extends WP_REST_Controller {
       if ( !isset( $params['table'] ) ) {
           return new WP_Error( 'cant-create', __( 'DB Table Name is required..', 'text-domain'), array( 'status' => 500 ) );
       }
-
-      // $methods = array("GET", "POST");
-      // if ( !isset( $params['method'] ) ) {
-      //     return new WP_Error( 'cant-create', __( 'HTTP method is required.', 'text-domain' ), array( 'status' => 500 ) );
-      // } else if (!in_array($params['method'], $methods)){
-      //     return new WP_Error( 'cant-create', __( 'Invalid HTTP method. Permitted HTTP methods are GET and POST.', 'text-domain' ), array( 'status' => 500 ) );
-      // }
 
       $list = get_option(APILISTNAME);
       $url = API_NAMESPACE.'/'.$params['name'];
