@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: AjaxTable
-Description: AjaxTable is multipurpose data table used for displaying custom data from the database.
+Plugin Name: AJAX Table with Custom CRUD API
+Description: Generates custom CRUD based REST API for the selected database table, enabling user to perform Add/Edit/Delete operations. It also helps to display data from API beautifully using Short Code: [AJDT api='API-NAME']
 Version: 1.1.1
 Author: shajeeb
 Author URI: https://nimra-tech.com/

@@ -84,6 +84,14 @@ jQuery('#table-name').change(function() {
         });
 });
 
+jQuery('#api-name').change(function() {
+    var apiName = jQuery(this).val();
+    if(apiName == 'all')
+        apiName = '<API-NAME>';
+
+    jQuery('#lblShortCode').text("[AJDT api='" + apiName + "']");
+    jQuery('#lblFromCode').text("echo do_shortcode(\"[AJDT api='" + apiName + "']\");");
+});
 
 jQuery( "#btnSaveApi" ).click(function() {
     var modalPopup = jQuery(this).closest('.modal');

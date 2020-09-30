@@ -11,13 +11,14 @@
 	
 ## Description ##
 	
-'AJAX Table with Custom CRUD API' is a multipurpose wordpress plugin data table used for displaying custom data from the database.
+'AJAX Table with Custom CRUD API' generates Custom CRUD based REST API for the selected database table enabling user to perform Add/Edit/Delete operations. It also helps to display data from API beautifully using Short Code: [AJDT api='API-NAME'].
 	
 ### Features: ###
-* Generates Custom REST API
-* Integrates Bootsrap tables
+* Generates CRUD based Custom REST API
+* Displays API data using AJAX with shortcode format [AJDT api='API-NAME']
+* Integrates Bootsrap table
 * Search records with AJAX
-* Filter visibility by data category. Different categories pages = different ( + global ) filters.
+* Filter visibility by data category.
 * No reloading, only ajax
  
 ### How It Works: ###
@@ -27,6 +28,9 @@
 * Create API by selecting database table. Test the api by clicking URL field
 * 
 ### Usage of API: ###
+* Create API by visiting - Go to Admin area -> AjaxTable Settings
+* Get the API Name and API URL
+* Test API URL using POSTMAN or any other API testing tool with authentication header 'X-WP-Nonce' with wordpress Rest Nonce
 * Use the short code wherever required to display the data
 * Syntax
 

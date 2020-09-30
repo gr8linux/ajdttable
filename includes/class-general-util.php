@@ -37,60 +37,61 @@
      * @return void
      */
     function render_shortcode(){
-        // echo do_shortcode("[AJDT api='sha1']");
-        // echo do_shortcode("[AJDT api='sha2']");
-        // echo do_shortcode("[AJDT api='sha3']");
-        // echo do_shortcode("[AJDT api='sha7']");
-        // foreach ($apiList as $key => $Api) {
-        //     echo do_shortcode("[AJDT api='$key']");
-        // }
-?>
-
-
+    ?>
 <div class="container-fluid">
           <div class="row">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label for="table-name" class="col-form-label">API Name:</label>
-                <select class="form-control" id="api-name">
-                    <option value='all'>All</option>
-                <?php $apiList = get_option(APILISTNAME);
-                    foreach($apiList as $k => $v){
-                        echo "<option value='$k'>$k</option>";
-                    } ?>
-                </select>
-                
-              </div>      
-            </div>
-            <div class="col-md-2">
+            <div class="col-md-12">
                 <br>
-                <br>
-              <button type="button" id="btnTestApi" class="btn btn-success">Render API Data</button>
-            </div>
-          </div>
+                <div class="bd-container-body">
+                    <div class="row"> <div class="col-md-6">
+                    <form action="admin.php?page=ajdttables" method="post">
+                        <div class="input-group">
+                        <label for="table-name" class="col-form-label">API Name:</label><br>
+                        <select class="custom-select" name="api-name" id="api-name">
+                            <option value='all'>All</option>
+                        <?php $apiList = get_option(APILISTNAME);
+                            foreach($apiList as $k => $v){
+                                if(isset($_POST['api-name']) && $_POST['api-name'] == $k)
+                                    echo "<option value='$k' selected>$k</option>";
+                                else
+                                    echo "<option value='$k'>$k</option>";
+                            } ?>
+                        </select>
+                        <div class="input-group-append">
+                            <input type="submit" class="btn btn-success" id="btnRenderApi" value="Render API Data" />
+                        </div>
+                        </div>
+                    </form>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="usageBox">
+                        <label>Short Code:</label><br>
+                        <label class="code" id="lblShortCode">[AJDT api='apiname']</label><br>
+                        <label>From Code:</label><br>
+                        <label class="code" id="lblFromCode">echo do_shortcode("[AJDT api='apiname']");</label>
+                        </div>
+                    </div>
+                    </div>
+              </div>   <!--bd-container-body -->    
+            </div> <!--class col-md-12 -->
+          </div> <!--class row -->
           <div class="row">
             <div class="col-md-12">
-                   <div class="input-group mb-3">
-                    <select class="custom-select" id="inputGroupSelect02">
-                        <option selected>Choose...</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                    <div class="input-group-append">
-                        <button type="button" id="btnTestApi" class="btn btn-success">Render API Data</button>
-                    </div>
-                    </div>      
+                   <div id="dvApiDataContainer">
+                   <?php 
+                    if (isset($_POST['api-name'])) {
+                        $apiName = $_POST['api-name'];
+                        if ($apiName == 'all') {
+                            foreach (get_option(APILISTNAME) as $key => $Api) {
+                                echo do_shortcode("[AJDT api='$key']");
+                            }
+                        }else{
+                            echo do_shortcode("[AJDT api='$apiName']");
+                        }
+                    }
+                    ?> </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="primary-key" class="col-form-label">Primary Key:</label>
-                <input type="text" class="form-control" id="primary-key" disabled> </input>
-              </div>
-            </div>
-          </div>          
         </div>
 
 <?php
