@@ -110,21 +110,21 @@ final class AjaxUtility {
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
 
-        $data = [
-            ['name' => 'Tarek, Rahman', 'age' => 22, 'email' => 'tarek.rahman@refin.com', 'place' => 'Nottingham', "created_at" => date("Y-m-d")],
-            ['name' => 'Farish, George W', 'age' => 21, 'email' => 'george.farish@refin.com', 'place' => 'London', "created_at" => date("Y-m-d")],
-            ['name' => 'Arjun, Menon', 'age' => 43, 'email' => 'arjun.menon@refin.com', 'place' => 'Birmingham', "created_at" => date("Y-m-d")],
-            ['name' => 'Charles-Love, Nadege', 'age' => 55, 'email' => 'nadege.charles@refin.com', 'place' => 'Liverpool', "created_at" => date("Y-m-d")],
-            ['name' => 'Wood, Claire', 'age' => 37, 'email' => 'claire.wood@refin.com', 'place' => 'Manchestor', "created_at" => date("Y-m-d")],
-            ['name' => 'Dowell,  Campbell', 'age' => 28, 'email' => 'campbell.dowell@refin.com', 'place' => 'Sounthampton', "created_at" => date("Y-m-d")],
-            ['name' => 'Telenkov, Evgenii', 'age' => 43, 'email' => 'evgenii.telenkov@refin.com', 'place' => 'Derby', "created_at" => date("Y-m-d")],
-            ['name' => 'Davidson, Brian', 'age' => 65, 'email' => 'brian.davidson@refin.com', 'place' => 'Licestor', "created_at" => date("Y-m-d")],
-            ['name' => 'Henry, Alan', 'age' => 33, 'email' => 'alan.henry@refin.com', 'place' => 'Beeston', "created_at" => date("Y-m-d")],
-        ];
+        // $data = [
+        //     ['name' => 'Tarek, Rahman', 'age' => 22, 'email' => 'tarek.rahman@refin.com', 'place' => 'Nottingham', "created_at" => date("Y-m-d")],
+        //     ['name' => 'Farish, George W', 'age' => 21, 'email' => 'george.farish@refin.com', 'place' => 'London', "created_at" => date("Y-m-d")],
+        //     ['name' => 'Arjun, Menon', 'age' => 43, 'email' => 'arjun.menon@refin.com', 'place' => 'Birmingham', "created_at" => date("Y-m-d")],
+        //     ['name' => 'Charles-Love, Nadege', 'age' => 55, 'email' => 'nadege.charles@refin.com', 'place' => 'Liverpool', "created_at" => date("Y-m-d")],
+        //     ['name' => 'Wood, Claire', 'age' => 37, 'email' => 'claire.wood@refin.com', 'place' => 'Manchestor', "created_at" => date("Y-m-d")],
+        //     ['name' => 'Dowell,  Campbell', 'age' => 28, 'email' => 'campbell.dowell@refin.com', 'place' => 'Sounthampton', "created_at" => date("Y-m-d")],
+        //     ['name' => 'Telenkov, Evgenii', 'age' => 43, 'email' => 'evgenii.telenkov@refin.com', 'place' => 'Derby', "created_at" => date("Y-m-d")],
+        //     ['name' => 'Davidson, Brian', 'age' => 65, 'email' => 'brian.davidson@refin.com', 'place' => 'Licestor', "created_at" => date("Y-m-d")],
+        //     ['name' => 'Henry, Alan', 'age' => 33, 'email' => 'alan.henry@refin.com', 'place' => 'Beeston', "created_at" => date("Y-m-d")],
+        // ];
 
-        foreach ($data as $stud) {
-                $result = $wpdb->insert($table_Utils, $stud);
-        }
+        // foreach ($data as $stud) {
+        //         $result = $wpdb->insert($table_Utils, $stud);
+        // }
         
     }
 
