@@ -9,13 +9,6 @@ class API_Registrar extends WP_REST_Controller {
      * Constructor
      */
     public function __construct() {
-// $apiList = get_option(APILISTNAME);
-// print '----------------------------------------------------------API Registrar<br>';
-// print_r($apiList);
-
-//         print '----------------------------------------------------------API Registrar----------------------------------------------------------<br>';
-        
-        // Init REST API routes.
         $this->register_ajdt_routes();
     }
 
