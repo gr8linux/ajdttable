@@ -36,7 +36,7 @@
      * Example: [AJDT api="sha1"]
      * @return void
      */
-    function render_shortcode(){
+    function ajdt_render_shortcode(){
     ?>
 <div class="container-fluid">
           <div class="row">
@@ -101,7 +101,7 @@
      * Handels shortcode request by rendering HTML component 
      * @return html component which mounts the data table
      */
-    function handle_shortcode($atts) { 
+    function ajdt_handle_shortcode($atts) { 
         $api = $atts['api'];
         $allapi = get_allapi_names();  //AjaxTable\ApiCache()::init()->get_allapi_names(); 
         $colNames = get_column_names($api);

@@ -9,7 +9,13 @@ class API_Registrar extends WP_REST_Controller {
      * Constructor
      */
     public function __construct() {
-        // // Init REST API routes.
+// $apiList = get_option(APILISTNAME);
+// print '----------------------------------------------------------API Registrar<br>';
+// print_r($apiList);
+
+//         print '----------------------------------------------------------API Registrar----------------------------------------------------------<br>';
+        
+        // Init REST API routes.
         $this->register_ajdt_routes();
     }
 
@@ -17,17 +23,19 @@ class API_Registrar extends WP_REST_Controller {
      * Registers all the routes
      */
     function register_ajdt_routes(){
-      $apiList = get_option(APILISTNAME);
-      foreach ($apiList as $ApiName => $value) {
-        $base = '';
-        if ($value['SelectedCondtion'] == 'no condition') {
-          $base = $ApiName;
-        } else {
-          $base = $ApiName . '/(?P<id>[A-Za-z0-9]+)';
-        }
+        $apiList = get_option(APILISTNAME);
+        if (is_array($apiList) || is_object($apiList)) {
+            foreach ($apiList as $ApiName => $value) {
+                $base = '';
+                if ($value['SelectedCondtion'] == 'no condition') {
+                $base = $ApiName;
+                } else {
+                $base = $ApiName . '/(?P<id>[A-Za-z0-9]+)';
+                }
 
-        $this->process_routes($value['MethodName'], $base, $value); 
-      }
+                $this->process_routes($value['MethodName'], $base, $value); 
+            }
+        }
     }
 
     /**

@@ -197,8 +197,7 @@ final class AjaxUtility {
     public function init_classes() {
         // if ( $this->is_request( 'admin' ) ) { }
         // if ( $this->is_request( 'frontend' ) ) { }
-        // if ( class_exists( 'okan' ) ) { }
-        //$this->container['generalutil'] = new AjaxTable\GeneralUtil();
+        // if ( class_exists( 'GeneralUtil' ) ) { }
         $this->container['restUtility'] = new ClassApiUtils();
         $this->container['rest'] = new API_Registrar();
         $this->container['admin'] = new AjaxTable\Admin();

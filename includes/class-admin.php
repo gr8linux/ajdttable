@@ -8,7 +8,7 @@ class Admin {
 
     public function __construct() {
         add_action( 'admin_menu', [ $this, 'admin_menu' ] );
-        add_shortcode('AJDT', 'handle_shortcode'); 
+        add_shortcode('AJDT', 'ajdt_handle_shortcode'); 
     }
 
     /**
@@ -21,12 +21,12 @@ class Admin {
             'activate_plugins', 'ajdtsettings', 'ajdt_list_api');
 
         add_submenu_page('ajdtsettings', __('Short Codes', 'fgpt'), __('Short Codes', 'fgpt'), 
-            'activate_plugins', 'ajdttables', 'render_shortcode');
+            'activate_plugins', 'ajdttables', 'ajdt_render_shortcode');
 
         // foreach (get_option(APILISTNAME) as $key => $Api) {
         //     //echo do_shortcode("[AJDT api='$key' allapi='$AllKeys']");
         //     add_submenu_page('ajdtsettings', __('Short Codes - '.$key, 'fgpt'), __('Short Codes - '.$key, 'fgpt'), 
-        //     'activate_plugins', 'ajdttables', 'render_shortcode');
+        //     'activate_plugins', 'ajdttables', 'ajdt_render_shortcode');
         // }
     }
 
@@ -51,7 +51,7 @@ class Admin {
      */
     public function init_hooks() {
         //add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-        //add_shortcode('AjaxTableUtil', 'handle_shortcode'); 
+        //add_shortcode('AjaxTableUtil', 'ajdt_handle_shortcode'); 
     }
 
     /**
