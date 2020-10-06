@@ -1,6 +1,6 @@
 <?php
  //https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/
-class ClassApiUtils extends WP_REST_Controller {
+class AjdtApiUtils extends WP_REST_Controller {
    
     /**
      * Constructor
@@ -71,7 +71,7 @@ class ClassApiUtils extends WP_REST_Controller {
    */
   public function get_key_column( $request ) {
       $params = $request->get_params();
-      $keys = getTableKey($params['table']);
+      $keys = ajdt_get_table_Key($params['table']);
 
     if(!$keys)
       return new WP_Error( 'no-data', __( 'No Primary Key found..!', 'text-domain' ), array( 'status' => 500 ) );
@@ -86,7 +86,7 @@ class ClassApiUtils extends WP_REST_Controller {
    * @return WP_Error|WP_REST_Response
    */
   public function get_items( $request ) {
-    $data = get_option(APILISTNAME);
+    $data = get_option(AJDT_APILISTNAME);
     return new WP_REST_Response($data, 200 );
   }
  
@@ -100,7 +100,7 @@ class ClassApiUtils extends WP_REST_Controller {
     //get parameters from request
     $params = $request->get_params();
     $apiname = $params['apiname'];
-    $apiList = get_option(APILISTNAME);
+    $apiList = get_option(AJDT_APILISTNAME);
 
     $data = $apiList[$apiname];
     if(!$data)
@@ -130,7 +130,7 @@ class ClassApiUtils extends WP_REST_Controller {
           return new WP_Error( 'cant-create', __( 'DB Table Name is required..', 'text-domain'), array( 'status' => 500 ) );
       }
 
-      $list = get_option(APILISTNAME);
+      $list = get_option(AJDT_APILISTNAME);
       $url = API_NAMESPACE.'/'.$params['name'];
       $list[$params['name']] =  array(
                           "TableName" => $params['table'],
@@ -143,8 +143,8 @@ class ClassApiUtils extends WP_REST_Controller {
                           "Query" => 'Select * from '.$params['table'].';',
                           "Url" => $url
                   );
-      update_option(APILISTNAME, $list);
-      $data = get_option(APILISTNAME);
+      update_option(AJDT_APILISTNAME, $list);
+      $data = get_option(AJDT_APILISTNAME);
 
       if ( is_array( $data ) ) {
         return new WP_REST_Response( $data, 200 );
@@ -164,7 +164,7 @@ class ClassApiUtils extends WP_REST_Controller {
 
     return new WP_REST_Response( var_dump( $request ), 200 );
     $apiname = $params['apiname'];
-    $apiList = get_option(APILISTNAME);
+    $apiList = get_option(AJDT_APILISTNAME);
 
     $itemToUpdate = $apiList[$apiname];
     if(!$itemToUpdate)
@@ -183,7 +183,7 @@ class ClassApiUtils extends WP_REST_Controller {
     $itemToUpdate['SelectedColumn'] = $params['cols'];
 
     $apiList[$apiname] = $itemToUpdate;
-    update_option(APILISTNAME, $apiList);
+    update_option(AJDT_APILISTNAME, $apiList);
 
     return new WP_REST_Response( $apiList, 200 );
   }
@@ -197,14 +197,14 @@ class ClassApiUtils extends WP_REST_Controller {
   public function delete_item( $request ) {
     $params = $request->get_params();
     $apiname = $params['apiname'];
-    $apiList = get_option(APILISTNAME);
+    $apiList = get_option(AJDT_APILISTNAME);
 
     $itemToDel = $apiList[$apiname];
     if(!$itemToDel)
       return new WP_Error( 'cant-delete', __( 'No matching api found..!', 'text-domain' ), array( 'status' => 500 ) );
 
     unset($apiList[$apiname]);
-    update_option(APILISTNAME, $apiList);
+    update_option(AJDT_APILISTNAME, $apiList);
 
     return new WP_REST_Response( $apiList, 200 );
   }

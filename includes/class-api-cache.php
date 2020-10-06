@@ -1,7 +1,7 @@
 <?php
 namespace AjaxTable;
 
-/** AjaxTable\ApiCache()::init()->get_allapi_names()
+/** Deals with Api list cache
  * 
  */
 class ApiCache {
@@ -27,7 +27,7 @@ class ApiCache {
      *
      * @return void
      */
-    public function get_column_names($api) { 
+    public function ajdt_get_cachecolumn_names($api) { 
         
         return "<div id='mount_$api'>
                     <input type='hidden' name='AllApi' value='$allapi'>
@@ -55,8 +55,8 @@ class ApiCache {
                 </div>"; 
     }
 
-    public function get_allapi_names() { 
-        $apiList = get_option(APILISTNAME);
+    public function ajdt_get_cacheapi_names() { 
+        $apiList = get_option(AJDT_APILISTNAME);
         return implode(',', array_keys($apiList));
     }
 }

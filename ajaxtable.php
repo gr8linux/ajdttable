@@ -84,7 +84,7 @@ final class AjaxUtility {
         define( 'AJDT_INCLUDES', AJDT_PATH . '/includes' );
         define( 'AJDT_URL', plugins_url( '', AJDT_FILE ) );
         define( 'AJDT_ASSETS', AJDT_URL . '/assets' );
-        define( 'APILISTNAME', 'AJDT_API_LIST');
+        define( 'AJDT_APILISTNAME', 'AJDT_API_LIST');
         define( 'API_NAMESPACE', 'ajdt/v1');
         define( 'API_UTIL_BASE', '/utility');
     }
@@ -184,7 +184,7 @@ final class AjaxUtility {
         
         // if ( $this->is_request( 'admin' ) ) { } 
         // if ( $this->is_request( 'frontend' ) ) { }
-        // if ( class_exists( 'okan' ) ) { }
+        // if ( class_exists( 'ajdt' ) ) { }
 
         include_once AJDT_INCLUDES . '/class-api-utils.php';
     }
@@ -198,8 +198,8 @@ final class AjaxUtility {
         // if ( $this->is_request( 'admin' ) ) { }
         // if ( $this->is_request( 'frontend' ) ) { }
         // if ( class_exists( 'GeneralUtil' ) ) { }
-        $this->container['restUtility'] = new ClassApiUtils();
-        $this->container['rest'] = new API_Registrar();
+        $this->container['restUtility'] = new AjdtApiUtils();
+        $this->container['rest'] = new AjdtApiRegistrar();
         $this->container['admin'] = new AjaxTable\Admin();
         $this->container['assets'] = new AjaxTable\Assets();
     }

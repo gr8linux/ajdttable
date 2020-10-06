@@ -23,7 +23,7 @@ class Admin {
         add_submenu_page('ajdtsettings', __('Short Codes', 'fgpt'), __('Short Codes', 'fgpt'), 
             'activate_plugins', 'ajdttables', 'ajdt_render_shortcode');
 
-        // foreach (get_option(APILISTNAME) as $key => $Api) {
+        // foreach (get_option(AJDT_APILISTNAME) as $key => $Api) {
         //     //echo do_shortcode("[AJDT api='$key' allapi='$AllKeys']");
         //     add_submenu_page('ajdtsettings', __('Short Codes - '.$key, 'fgpt'), __('Short Codes - '.$key, 'fgpt'), 
         //     'activate_plugins', 'ajdttables', 'ajdt_render_shortcode');
@@ -38,7 +38,7 @@ class Admin {
     * @return array
     */
     public function payment_gateways( $gateways ) {
-        $available_gateway = \We_POS::init()->available_gateway();
+        $available_gateway = \AjaxTable::init()->available_gateway();
         // else add default POS gateways
         return array_merge( $gateways, apply_filters( 'ajdt_payment_gateway', array_keys( $available_gateway ) ) );
     }

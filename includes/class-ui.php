@@ -43,7 +43,7 @@ function ajdt_list_api() { ?>
                 <label for="table-name" class="col-form-label">Table Name:</label>
                 <select class="form-control" id="table-name">
                 <?php
-                  $tables = getTables();
+                  $tables = ajdt_get_tables();
                   foreach ($tables as $index => $tableSet) {
                       foreach ($tableSet as $table) {
                           echo "<option value='$table'>$table</option>";
@@ -118,7 +118,7 @@ function ajdt_list_api1() {  ?>
                 <th>Columns</th><th>URL</th><th>Action</th></tr></thead>
                 <tbody>
                 <?php //data-backdrop="" 
-                foreach (get_option(APILISTNAME) as $key => $Api) {
+                foreach (get_option(AJDT_APILISTNAME) as $key => $Api) {
                     $method = $Api['MethodName'];
                     $table = $Api['TableName'];
                     $cols = $Api['SelectedColumn'];

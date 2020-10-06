@@ -4,7 +4,7 @@
      * Retrieves all the tables 
      * @return void
      */
-    function getTables(){
+    function ajdt_get_tables(){
         global $wpdb;
         $sql = "SHOW TABLES LIKE '%%'";
         return $wpdb->get_results($sql);
@@ -14,7 +14,7 @@
      * Retrieves keys of the table 
      * @return void
      */
-    function getTableKey($table){
+    function ajdt_get_table_Key($table){
         global $wpdb;
         $sql = "SELECT COLUMN_NAME FROM   information_schema.key_column_usage 
         WHERE  table_schema = schema() AND constraint_name = 'PRIMARY' AND table_name = '$table'";
@@ -25,7 +25,7 @@
      * Retrieves keys of the table 
      * @return void
      */
-    function getTableColumns($table){
+    function ajdt_get_table_columns($table){
         global $wpdb;
         $sql = "SHOW COLUMNS FROM $table WHERE Extra <> 'auto_increment'";
         return $wpdb->get_results($sql);
@@ -49,7 +49,7 @@
                         <label for="table-name" class="col-form-label">API Name:</label><br>
                         <select class="custom-select" name="api-name" id="api-name">
                             <option value='all'>All</option>
-                        <?php $apiList = get_option(APILISTNAME);
+                        <?php $apiList = get_option(AJDT_APILISTNAME);
                             foreach($apiList as $k => $v){
                                 if(isset($_POST['api-name']) && $_POST['api-name'] == $k)
                                     echo "<option value='$k' selected>$k</option>";
@@ -82,7 +82,7 @@
                     if (isset($_POST['api-name'])) {
                         $apiName = $_POST['api-name'];
                         if ($apiName == 'all') {
-                            foreach (get_option(APILISTNAME) as $key => $Api) {
+                            foreach (get_option(AJDT_APILISTNAME) as $key => $Api) {
                                 echo do_shortcode("[AJDT api='$key']");
                             }
                         }else{
@@ -103,8 +103,8 @@
      */
     function ajdt_handle_shortcode($atts) { 
         $api = $atts['api'];
-        $allapi = get_allapi_names();  //AjaxTable\ApiCache()::init()->get_allapi_names(); 
-        $colNames = get_column_names($api);
+        $allapi = ajdt_get_allapi_names();  //AjaxTable\ApiCache()::init()->get_allapi_names(); 
+        $colNames = ajdt_get_column_names($api);
         if(empty($colNames))
             return '';
 
@@ -119,10 +119,10 @@
      * Gets the columns names from API
      * @return comma seperated string
      */
-    function get_column_names($api) { 
+    function ajdt_get_column_names($api) { 
         $cols = '';
-        if(is_api_exists($api)){
-            $tableColumns = getTableColumns(get_option(APILISTNAME)[$api]['TableName']);
+        if(ajdt_is_api_exists($api)){
+            $tableColumns = ajdt_get_table_columns(get_option(AJDT_APILISTNAME)[$api]['TableName']);
             $cols ='';
             foreach($tableColumns as $column){
                 $key = $column->Field;
@@ -131,7 +131,7 @@
         }
 
         if(empty($cols)){
-            echo show_error("The requested API(name: $api) doesn't exists or http method 'GET' might be missing...!. 
+            echo ajdt_show_error("The requested API(name: $api) doesn't exists or http method 'GET' might be missing...!. 
                         Please check for valid APIs in 'AjaxTable Settings' page");
             return $cols;
         }
@@ -143,8 +143,8 @@
      * Gets API names
      * @return comma seperated string
      */
-    function get_allapi_names() { 
-        $apiList = get_option(APILISTNAME);
+    function ajdt_get_allapi_names() { 
+        $apiList = get_option(AJDT_APILISTNAME);
         return implode(',', array_keys($apiList));
     }
 
@@ -152,8 +152,8 @@
      * Checks if the requested API exists or not
      * @return boolean value
      */
-    function is_api_exists($api) { 
-        $apiList = get_option(APILISTNAME);
+    function ajdt_is_api_exists($api) { 
+        $apiList = get_option(AJDT_APILISTNAME);
         $isExist = false;
         foreach($apiList as $k => $v){
             if($k==$api){
@@ -171,6 +171,6 @@
      * Displays error message
      * @return error component
      */
-    function show_error($msg){
+    function ajdt_show_error($msg){
         return "<div id='notice' class='error'><p>$msg</p></div>";
     }

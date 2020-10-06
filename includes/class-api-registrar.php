@@ -1,10 +1,11 @@
 <?php
 //namespace AjaxTable;
 
+// use WP_REST_Controller;
 /**
- * API_Registrar class
+ * AjdtApiRegistrar class
  */
-class API_Registrar extends WP_REST_Controller {
+class AjdtApiRegistrar extends WP_REST_Controller {
     /**
      * Constructor
      */
@@ -16,7 +17,7 @@ class API_Registrar extends WP_REST_Controller {
      * Registers all the routes
      */
     function register_ajdt_routes(){
-        $apiList = get_option(APILISTNAME);
+        $apiList = get_option(AJDT_APILISTNAME);
         if (is_array($apiList) || is_object($apiList)) {
             foreach ($apiList as $ApiName => $value) {
                 $base = '';
@@ -162,7 +163,7 @@ class API_Registrar extends WP_REST_Controller {
         $primaryKey = $attrs['args']['PrimaryKey'];
         $keyId = $request->get_params()['keyId'];
         try {
-            $tableColumns = getTableColumns($table);
+            $tableColumns = ajdt_get_table_columns($table);
             $validCols = $updateData = [];
             foreach($tableColumns as $column){
                 if(!empty($params[$column->Field]))
@@ -201,7 +202,7 @@ class API_Registrar extends WP_REST_Controller {
         $table = $attrs['args']['TableName'];
         $primaryKey = $attrs['args']['PrimaryKey'];
         try {
-            $tableColumns = getTableColumns($table);
+            $tableColumns = ajdt_get_table_columns($table);
             $validCols = $insertData = [];
             foreach($tableColumns as $column){
                 if(!empty($params[$column->Field]))

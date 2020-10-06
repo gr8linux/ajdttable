@@ -67,15 +67,15 @@ class Assets {
 
         $scripts = [
             'popper_min_js' => [
-                'src'       => 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
+                'src'       => AJDT_URL . '/js/popper.min.js',
                 'in_footer' => true
             ],
             'bootstrap_min_js' => [
-                'src'       => 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
+                'src'       => AJDT_URL . '/js/bootstrap.min.js',
                 'in_footer' => true
             ],
             'bootstrap_table' => [
-                'src'       => 'https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js',
+                'src'       => AJDT_URL . '/js/bootstrap-table.min.js',
                 'in_footer' => true
             ],
             'ajdt_api' => [
@@ -108,13 +108,13 @@ class Assets {
 
         $styles = [
             'bootstrap_min_css' => [
-                'src' =>  'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
+                'src' =>  AJDT_URL . '/js/bootstrap.min.css'
             ],
             'all_css' => [
-                'src' =>  'https://use.fontawesome.com/releases/v5.6.3/css/all.css'
+                'src' =>  AJDT_URL . '/js/all.css'
             ],
             'bootstrap_table_min_css' => [
-                'src' =>  'https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css'
+                'src' =>  AJDT_URL . '/js/bootstrap-table.min.css'
             ],
             'ajdt_style' => [
                 'src' =>  AJDT_URL . '/css/style.css',
