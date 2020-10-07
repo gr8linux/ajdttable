@@ -1,9 +1,7 @@
 <?php
-//namespace AjaxTable;
 
-// use WP_REST_Controller;
 /**
- * AjdtApiRegistrar class
+ * AjdtApiRegistrar class for API actions
  */
 class AjdtApiRegistrar extends WP_REST_Controller {
     /**
@@ -40,13 +38,13 @@ class AjdtApiRegistrar extends WP_REST_Controller {
         foreach(explode(",", $methods) as $method) {
             switch ($method) {
                 case 'GET': 
-                    register_rest_route(API_NAMESPACE, $base,  [
+                    register_rest_route(AJDT_API_NAMESPACE, $base,  [
                             'methods'             => WP_REST_Server::READABLE,
                             'callback'            => array( $this, 'ajdt_get_items' ),
                             'permission_callback' => array( $this, 'ajdt_get_items_permissions_check' ),
                             'args'                => $args,
                          ] );
-                    register_rest_route(API_NAMESPACE, $base.$keyId,  [
+                    register_rest_route(AJDT_API_NAMESPACE, $base.$keyId,  [
                             'methods'             => WP_REST_Server::READABLE,
                             'callback'            => array( $this, 'ajdt_get_item' ),
                             'permission_callback' => array( $this, 'ajdt_get_items_permissions_check' ),
@@ -54,7 +52,7 @@ class AjdtApiRegistrar extends WP_REST_Controller {
                          ] );
                     break;
                 case 'POST':
-                    register_rest_route(API_NAMESPACE, $base,  [
+                    register_rest_route(AJDT_API_NAMESPACE, $base,  [
                             'methods'             => WP_REST_Server::CREATABLE,
                             'callback'            => array( $this, 'ajdt_create_item' ),
                             'permission_callback' => array( $this, 'ajdt_crud_item_permissions_check' ),
@@ -65,7 +63,7 @@ class AjdtApiRegistrar extends WP_REST_Controller {
                          ] );
                     break;
                 case 'PUT':
-                    register_rest_route(API_NAMESPACE, $base.$keyId,  [
+                    register_rest_route(AJDT_API_NAMESPACE, $base.$keyId,  [
                             'methods'             => WP_REST_Server::EDITABLE,
                             'callback'            => array( $this, 'ajdt_update_item' ),
                             'permission_callback' => array( $this, 'ajdt_crud_item_permissions_check' ),
@@ -73,7 +71,7 @@ class AjdtApiRegistrar extends WP_REST_Controller {
                          ] );
                     break;
                 case 'DELETE':  
-                    register_rest_route(API_NAMESPACE, $base.$keyId,  [
+                    register_rest_route(AJDT_API_NAMESPACE, $base.$keyId,  [
                             'methods'             => WP_REST_Server::DELETABLE,
                             'callback'            => array( $this, 'ajdt_delete_item' ),
                             'permission_callback' => array( $this, 'ajdt_crud_item_permissions_check' ),

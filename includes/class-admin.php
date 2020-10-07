@@ -17,10 +17,10 @@ class Admin {
      * @return void
      */
     public function admin_menu() {
-        add_menu_page(__('AjaxTable Settings', 'ajdt'), __('AjaxTable Settings', 'ajdt'), 
+        add_menu_page(__('AJDT Settings', 'ajdt'), __('AJDT Settings', 'ajdt'), 
             'activate_plugins', 'ajdtsettings', 'ajdt_list_api');
 
-        add_submenu_page('ajdtsettings', __('Short Codes', 'fgpt'), __('Short Codes', 'fgpt'), 
+        add_submenu_page('ajdtsettings', __('AJDT Short Codes', 'fgpt'), __('AJDT Short Codes', 'fgpt'), 
             'activate_plugins', 'ajdttables', 'ajdt_render_shortcode');
 
         // foreach (get_option(AJDT_APILISTNAME) as $key => $Api) {

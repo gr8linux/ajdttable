@@ -132,7 +132,7 @@
 
         if(empty($cols)){
             echo ajdt_show_error("The requested API(name: $api) doesn't exists or http method 'GET' might be missing...!. 
-                        Please check for valid APIs in 'AjaxTable Settings' page");
+                        Please check for valid APIs in 'AJDT Settings' page");
             return $cols;
         }
 

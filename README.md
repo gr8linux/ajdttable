@@ -24,17 +24,17 @@
 ### How It Works: ###
 	
 * Install and activate plugin
-* Go to Admin area -> AjaxTable Settings 
+* Go to Admin area -> AJDT Settings 
 * Create API by selecting database table. Test the api by clicking URL field
 * 
 ### Usage of API: ###
-* Create API by visiting - Go to Admin area -> AjaxTable Settings
+* Create API by visiting - Go to Admin area -> AJDT Settings
 * Get the API Name and API URL
 * Test API URL using POSTMAN or any other API testing tool with authentication header 'X-WP-Nonce' with wordpress Rest Nonce
 * Use the short code wherever required to display the data
 * Syntax
 
-    [AJDT api=' API - Name given while creation from via AjaxTable Settings']
+    [AJDT api=' API - Name given while creation from via AJDT Settings']
 
 * Short Code example:-
  
@@ -60,7 +60,7 @@ Use  echo do_shortcode("[AJDT api='MY-API-NAME']"); Here the MY-API-NAME is the 
 If shortcode content is not seen printed, check the WP settings to see if any option is enabled to restrict where and when shortcode is printed. Also confirm if the shortcode API-NAME is correct and there is no duplicate `api` attribute for the shortcode. Please try the shortcode content in an isolated environment and confirm if the shortcode content is working correctly as expected.
 
 ### Screenshots ###
-1. AjaxTable Settings page for managing custom REST APIs.
+1. AJDT Settings page for managing custom REST APIs.
 2. API Create New Page.
 3. 'Short Codes' for viewing, and displaying API data 
 4. Sample API data 

@@ -1,5 +1,8 @@
 <?php
- //https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/
+
+/**
+ * AjdtApiUtils class for managing APIs 
+ */
 class AjdtApiUtils extends WP_REST_Controller {
    
     /**
@@ -14,7 +17,7 @@ class AjdtApiUtils extends WP_REST_Controller {
    * Register the routes for the objects of the controller.
    */
   public function register_routes() { //http://localhost/wp55/wp-json/ajdt/v1/utility
-    register_rest_route( API_NAMESPACE, API_UTIL_BASE, array(
+    register_rest_route( AJDT_API_NAMESPACE, AJDT_API_UTIL_BASE, array(
       array(
         'methods'             => WP_REST_Server::READABLE,
         'callback'            => array( $this, 'get_items' ),
@@ -28,7 +31,7 @@ class AjdtApiUtils extends WP_REST_Controller {
         'args'                => $this->get_endpoint_args_for_item_schema( true ),
       ),
     ) );    // \w - string param, \d - digits 
-    register_rest_route( API_NAMESPACE, API_UTIL_BASE . '/(?P<apiname>[\w]+)', array( 
+    register_rest_route( AJDT_API_NAMESPACE, AJDT_API_UTIL_BASE . '/(?P<apiname>[\w]+)', array( 
       array(
         'methods'             => WP_REST_Server::READABLE,
         'callback'            => array( $this, 'get_item' ),
@@ -56,7 +59,7 @@ class AjdtApiUtils extends WP_REST_Controller {
         ),
       ),
     ) );
-    register_rest_route( API_NAMESPACE, API_UTIL_BASE . '/schema/(?P<table>[\w]+)', array(
+    register_rest_route( AJDT_API_NAMESPACE, AJDT_API_UTIL_BASE . '/schema/(?P<table>[\w]+)', array(
       'methods'  => WP_REST_Server::READABLE,
       'callback' => array( $this, 'get_key_column' ),
       'permission_callback' => array( $this, 'get_items_permissions_check' ),
@@ -131,7 +134,7 @@ class AjdtApiUtils extends WP_REST_Controller {
       }
 
       $list = get_option(AJDT_APILISTNAME);
-      $url = API_NAMESPACE.'/'.$params['name'];
+      $url = AJDT_API_NAMESPACE.'/'.$params['name'];
       $list[$params['name']] =  array(
                           "TableName" => $params['table'],
                           "MethodName" => $params['method'],
