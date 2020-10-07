@@ -200,8 +200,8 @@ final class AjaxUtility {
         // if ( class_exists( 'GeneralUtil' ) ) { }
         $this->container['restUtility'] = new AjdtApiUtils();
         $this->container['rest'] = new  AjdtApiRegistrar(); 
-        $this->container['admin'] = new AjaxTable\Admin();
-        $this->container['assets'] = new AjaxTable\Assets();
+        $this->container['admin'] = new AjdtTable\Admin();
+        $this->container['assets'] = new AjdtTable\Assets();
     }
 
     /**

@@ -1,5 +1,5 @@
 <?php
-namespace AjaxTable;
+namespace AjdtTable;
 
 /** Deals with Api list cache
  * 

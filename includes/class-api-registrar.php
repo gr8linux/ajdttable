@@ -17,15 +17,15 @@ class AjdtApiRegistrar extends WP_REST_Controller {
     function register_ajdt_routes(){
         $apiList = get_option(AJDT_APILISTNAME);
         if (is_array($apiList) || is_object($apiList)) {
-            foreach ($apiList as $ApiName => $value) {
+            foreach ($apiList as $apiName => $apiProp) {
                 $base = '';
-                if ($value['SelectedCondtion'] == 'no condition') {
-                $base = $ApiName;
+                if ($apiProp['SelectedCondtion'] == 'no condition') {
+                $base = $apiName;
                 } else {
-                $base = $ApiName . '/(?P<id>[A-Za-z0-9]+)';
+                $base = $apiName . '/(?P<id>[A-Za-z0-9]+)';
                 }
 
-                $this->process_routes($value['MethodName'], $base, $value); 
+                $this->process_routes($apiProp['MethodName'], $base, $apiProp); 
             }
         }
     }
@@ -107,9 +107,22 @@ class AjdtApiRegistrar extends WP_REST_Controller {
      */
     function ajdt_get_item($request) {
         $attrs =  $request->get_attributes();
-        $table = $attrs['args']['TableName'];
-        $primaryKey = $attrs['args']['PrimaryKey'];
-        $keyId = $request->get_params()['keyId'];
+
+        if ( !isset( $request->get_params()['keyId'] ) ) {
+            return new WP_Error( 'cant-create', __( 'KeyId is required..!', 'text-domain'), array( 'status' => 500 ) );
+        }
+        $keyId = sanitize_text_field( wp_unslash( $request->get_params()['keyId'] ));
+
+        if ( !isset( $attrs['args']['TableName'] ) ) {
+            return new WP_Error( 'cant-create', __( 'Table name is required..!', 'text-domain'), array( 'status' => 500 ) );
+        }
+        $table = sanitize_text_field( wp_unslash($attrs['args']['TableName']));
+
+        if ( !isset( $attrs['args']['PrimaryKey'] ) ) {
+            return new WP_Error( 'cant-create', __( 'Primary Key is required..!', 'text-domain'), array( 'status' => 500 ) );
+        }
+        $primaryKey = sanitize_text_field( wp_unslash( $attrs['args']['PrimaryKey'] ));
+
 
         global $wpdb;
         $result = $wpdb->get_row("SELECT * FROM $table WHERE $primaryKey = $keyId");
@@ -122,13 +135,18 @@ class AjdtApiRegistrar extends WP_REST_Controller {
      */
     function ajdt_get_items($request) {
         global $wpdb;
-        $need =  $request->get_attributes();
-        $GetQuery = $need['args']['Query'];
-        $SelectedCondtion = $need['args']['SelectedCondtion'];
+        $attrs =  $request->get_attributes();
+
+        if ( !isset( $attrs['args']['Query'] ) ) {
+            return new WP_Error( 'cant-create', __( 'Query is missing..!', 'text-domain'), array( 'status' => 500 ) );
+        }
+        $getQuery = sanitize_text_field( wp_unslash( $attrs['args']['Query'] ));
+        $SelectedCondtion = sanitize_text_field( wp_unslash( $attrs['args']['SelectedCondtion'] ));
+
         if (($SelectedCondtion == 'no condition')) {
-            $data = $wpdb->get_results("{$GetQuery}");
+            $data = $wpdb->get_results("{$getQuery}");
         } else {
-            $Spliting = explode($SelectedCondtion, $GetQuery);
+            $Spliting = explode($SelectedCondtion, $getQuery);
             $MainQuery = $Spliting[0];
             $type = gettype($request['id']);
             if ($type == "string") {
@@ -157,9 +175,22 @@ class AjdtApiRegistrar extends WP_REST_Controller {
     public function ajdt_update_item( $request ) {
         $params = $request->get_params();
         $attrs =  $request->get_attributes()['args'];
-        $table = $attrs['args']['TableName'];
-        $primaryKey = $attrs['args']['PrimaryKey'];
-        $keyId = $request->get_params()['keyId'];
+
+        if ( !isset( $request->get_params()['keyId'] ) ) {
+            return new WP_Error( 'cant-create', __( 'KeyId is required..!', 'text-domain'), array( 'status' => 500 ) );
+        }
+        $keyId = sanitize_text_field( wp_unslash( $request->get_params()['keyId'] ));
+
+        if ( !isset( $attrs['args']['TableName'] ) ) {
+            return new WP_Error( 'cant-create', __( 'Table name is required..!', 'text-domain'), array( 'status' => 500 ) );
+        }
+        $table = sanitize_text_field( wp_unslash($attrs['args']['TableName']));
+
+        if ( !isset( $attrs['args']['PrimaryKey'] ) ) {
+            return new WP_Error( 'cant-create', __( 'Primary Key is required..!', 'text-domain'), array( 'status' => 500 ) );
+        }
+        $primaryKey = sanitize_text_field( wp_unslash( $attrs['args']['PrimaryKey'] ));
+
         try {
             $tableColumns = ajdt_get_table_columns($table);
             $validCols = $updateData = [];
@@ -196,15 +227,23 @@ class AjdtApiRegistrar extends WP_REST_Controller {
     */
     public function ajdt_create_item( $request ) {
         $params = $request->get_params();
+
+        if ( !isset( $request->get_attributes()['args'] ) ) {
+            return new WP_Error( 'cant-create', __( 'No data found..!', 'text-domain'), array( 'status' => 500 ) );
+        }
         $attrs =  $request->get_attributes()['args'];
-        $table = $attrs['args']['TableName'];
-        $primaryKey = $attrs['args']['PrimaryKey'];
+
+        if ( !isset( $attrs['args']['TableName'] ) ) {
+            return new WP_Error( 'cant-create', __( 'Table name is required..!', 'text-domain'), array( 'status' => 500 ) );
+        }
+        $table = sanitize_text_field( wp_unslash($attrs['args']['TableName']));
+
         try {
             $tableColumns = ajdt_get_table_columns($table);
             $validCols = $insertData = [];
             foreach($tableColumns as $column){
                 if(!empty($params[$column->Field]))
-                    $insertData[$column->Field] = $params[$column->Field];
+                    $insertData[$column->Field] = sanitize_text_field( wp_unslash($params[$column->Field]));
 
                 $validCols[$column->Field] = "";
             }
@@ -227,9 +266,21 @@ class AjdtApiRegistrar extends WP_REST_Controller {
     */
     function ajdt_delete_item($request) {
         $attrs =  $request->get_attributes();
-        $keyId = $request->get_params()['keyId'];
-        $table = $attrs['args']['TableName'];
-        $primaryKey = $attrs['args']['PrimaryKey'];
+
+        if ( !isset( $request->get_params()['keyId'] ) ) {
+            return new WP_Error( 'cant-create', __( 'KeyId is required..!', 'text-domain'), array( 'status' => 500 ) );
+        }
+        $keyId = sanitize_text_field( wp_unslash( $request->get_params()['keyId'] ));
+
+        if ( !isset( $attrs['args']['TableName'] ) ) {
+            return new WP_Error( 'cant-create', __( 'Table name is required..!', 'text-domain'), array( 'status' => 500 ) );
+        }
+        $table = sanitize_text_field( wp_unslash($attrs['args']['TableName']));
+
+        if ( !isset( $attrs['args']['PrimaryKey'] ) ) {
+            return new WP_Error( 'cant-create', __( 'Primary Key is required..!', 'text-domain'), array( 'status' => 500 ) );
+        }
+        $primaryKey = sanitize_text_field( wp_unslash($attrs['args']['PrimaryKey']));
 
         try {
 

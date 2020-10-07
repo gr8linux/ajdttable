@@ -1,5 +1,5 @@
 <?php
-namespace AjaxTable;
+namespace AjdtTable;
 
 /**
  * Scripts and Styles Class

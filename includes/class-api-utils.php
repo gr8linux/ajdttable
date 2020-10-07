@@ -16,7 +16,7 @@ class AjdtApiUtils extends WP_REST_Controller {
   /**
    * Register the routes for the objects of the controller.
    */
-  public function register_routes() { //http://localhost/wp55/wp-json/ajdt/v1/utility
+  public function register_routes() { 
     register_rest_route( AJDT_API_NAMESPACE, AJDT_API_UTIL_BASE, array(
       array(
         'methods'             => WP_REST_Server::READABLE,
@@ -133,17 +133,26 @@ class AjdtApiUtils extends WP_REST_Controller {
           return new WP_Error( 'cant-create', __( 'DB Table Name is required..', 'text-domain'), array( 'status' => 500 ) );
       }
 
+      if ( !isset( $params['method'] ) ) {
+          return new WP_Error( 'cant-create', __( 'Http Method(s) is required..', 'text-domain'), array( 'status' => 500 ) );
+      }
+
+      $apiName = sanitize_text_field( wp_unslash($params['name']));
+      $primaryKey = sanitize_text_field( wp_unslash($params['primarykey']));
+      $tableName = sanitize_text_field( wp_unslash($params['table']));
+      $httpMethods = sanitize_text_field( wp_unslash($params['method']));
+
       $list = get_option(AJDT_APILISTNAME);
-      $url = AJDT_API_NAMESPACE.'/'.$params['name'];
-      $list[$params['name']] =  array(
-                          "TableName" => $params['table'],
-                          "MethodName" => $params['method'],
-                          "PrimaryKey" => $params['primarykey'],
+      $url = AJDT_API_NAMESPACE.'/'.$apiName;
+      $list[$apiName] =  array(
+                          "TableName" => $tableName,
+                          "MethodName" => $httpMethods,
+                          "PrimaryKey" => $primaryKey,
                           "SelectedColumn" => 'All',
                           "ConditionColumn" => '',
                           "SelectedCondtion" => 'no condition',
                           "SelectedParameter" => 1,
-                          "Query" => 'Select * from '.$params['table'].';',
+                          "Query" => 'Select * from '.$tableName.';',
                           "Url" => $url
                   );
       update_option(AJDT_APILISTNAME, $list);
@@ -164,14 +173,17 @@ class AjdtApiUtils extends WP_REST_Controller {
    */
   public function update_item( $request ) {
     $params = $request->get_params();
+    if ( !isset( $params['apiname'] ) ) {
+        return new WP_Error( 'cant-create', __( 'API Name is required..', 'text-domain'), array( 'status' => 500 ) );
+    }
 
-    return new WP_REST_Response( var_dump( $request ), 200 );
-    $apiname = $params['apiname'];
+    $apiname = sanitize_text_field( wp_unslash($params['apiname']));
     $apiList = get_option(AJDT_APILISTNAME);
-
     $itemToUpdate = $apiList[$apiname];
-    if(!$itemToUpdate)
+
+    if(!$itemToUpdate) {
       return new WP_Error( 'cant-update', __( 'No matching api found..!', 'text-domain' ), array( 'status' => 500 ) );
+    }
 
     if ( !isset( $params['table'] ) ) {
         return new WP_Error( 'cant-create', __( 'DB Table Name is required..', 'text-domain'), array( 'status' => 500 ) );
@@ -181,9 +193,17 @@ class AjdtApiUtils extends WP_REST_Controller {
         return new WP_Error( 'cant-create', __( 'SelectedColumn is required..', 'text-domain' ), array( 'status' => 500 ) );
     }
 
-    $itemToUpdate['TableName'] = $params['table'];
-    $itemToUpdate['MethodName'] = $params['method'];
-    $itemToUpdate['SelectedColumn'] = $params['cols'];
+    if ( !isset( $params['method'] ) ) {
+        return new WP_Error( 'cant-create', __( 'Http Method(s) required..', 'text-domain'), array( 'status' => 500 ) );
+    }
+
+    $tableName = sanitize_text_field( wp_unslash($params['table']));
+    $cols = sanitize_text_field( wp_unslash($params['cols']));
+    $httpMethods = sanitize_text_field( wp_unslash($params['method']));
+
+    $itemToUpdate['TableName'] = $tableName;
+    $itemToUpdate['MethodName'] = $httpMethods;
+    $itemToUpdate['SelectedColumn'] = $cols;
 
     $apiList[$apiname] = $itemToUpdate;
     update_option(AJDT_APILISTNAME, $apiList);
@@ -199,7 +219,12 @@ class AjdtApiUtils extends WP_REST_Controller {
    */
   public function delete_item( $request ) {
     $params = $request->get_params();
-    $apiname = $params['apiname'];
+
+    if ( !isset( $params['apiname'] ) ) {
+        return new WP_Error( 'cant-create', __( 'API Name is required..', 'text-domain'), array( 'status' => 500 ) );
+    }
+    $apiname = sanitize_text_field( wp_unslash($params['apiname']));
+
     $apiList = get_option(AJDT_APILISTNAME);
 
     $itemToDel = $apiList[$apiname];
@@ -219,7 +244,6 @@ class AjdtApiUtils extends WP_REST_Controller {
    * @return WP_Error|bool
    */
   public function get_items_permissions_check( $request ) {
-    //return true; //<--use to make readable by all
     return current_user_can('administrator');
   }
  

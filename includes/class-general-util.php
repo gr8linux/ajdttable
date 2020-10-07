@@ -103,7 +103,7 @@
      */
     function ajdt_handle_shortcode($atts) { 
         $api = $atts['api'];
-        $allapi = ajdt_get_allapi_names();  //AjaxTable\ApiCache()::init()->get_allapi_names(); 
+        $allapi = ajdt_get_allapi_names();  //AjdtTable\ApiCache()::init()->get_allapi_names(); 
         $colNames = ajdt_get_column_names($api);
         if(empty($colNames))
             return '';
