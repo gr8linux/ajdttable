@@ -2,7 +2,7 @@
 
 **Plugin Name:** AJAX Table with Custom CRUD API
 **Contributors:** shajeeb.s
-**Tags:** bootstrap, filters, data filters, ajax data filters, advanced data filters, CRUD operations, CRUD API, Custom REST API
+**Tags:** bootstrap, filters, data filters, ajax data filters, advanced data filters, CRUD operations, CRUD API, Custom REST API, bootstrap table wordpress.
 **Tested up to:** 5.5.1
 **Stable tag:**  1.1.1
 **License:** GPLv2 or later
