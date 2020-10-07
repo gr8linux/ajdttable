@@ -108,13 +108,16 @@ class Assets {
 
         $styles = [
             'bootstrap_min_css' => [
-                'src' =>  AJDT_URL . '/js/bootstrap.min.css'
+                'src' =>  AJDT_URL . '/css/bootstrap.min.css'
             ],
             'all_css' => [
-                'src' =>  AJDT_URL . '/js/all.css'
+                'src' =>  AJDT_URL . '/css/all.css'
+            ],
+            'font_awesome_min_css' => [
+                'src' =>  AJDT_URL . '/css/font-awesome.min.css'
             ],
             'bootstrap_table_min_css' => [
-                'src' =>  AJDT_URL . '/js/bootstrap-table.min.css'
+                'src' =>  AJDT_URL . '/css/bootstrap-table.min.css'
             ],
             'ajdt_style' => [
                 'src' =>  AJDT_URL . '/css/style.css',
@@ -129,6 +132,7 @@ class Assets {
             // Enqueue all style 
             wp_enqueue_style( 'bootstrap_min_css' );
             wp_enqueue_style( 'all_css' );
+            wp_enqueue_style( 'font_awesome_min_css' );
             wp_enqueue_style( 'bootstrap_table_min_css' );
             wp_enqueue_style( 'ajdt_style' );
  
@@ -140,7 +144,6 @@ class Assets {
             do_action( 'ajdt_load_forntend_scripts' );
             wp_enqueue_script( 'ajdt_api' );
             wp_enqueue_script( 'ajdt_bs_table' );
-            // wp_enqueue_script( 'ajdt_api_oldutil' );
             wp_enqueue_script( 'ajdt_api_util' );
             
        // }
@@ -153,10 +156,10 @@ class Assets {
     public function register_localize() {
         $localize_data = apply_filters( 'adjt_localize_data', [
             'rest' => array(
-                'privusername'    => 'shajeeb shahul hameed',
+                'privusername'    => 'shajeebs',
                 'root'    => esc_url_raw( get_rest_url() ),
                 'nonce'   => wp_create_nonce( 'wp_rest' ),
-                'posversion' => '1.1.1',
+                'ajdtversion' => AJDT_VERSION,
             ),
             'ajaxurl'                      => admin_url( 'admin-ajax.php' ),
             'nonce'                        => wp_create_nonce( 'ajdt_nonce' ),
