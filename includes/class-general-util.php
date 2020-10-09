@@ -44,7 +44,7 @@
                 <br>
                 <div class="bd-container-body">
                     <div class="row"> <div class="col-md-6">
-                    <form action="admin.php?page=ajdttables" method="post">
+                    <form action="admin.php?page=ajdtshortcodes" method="post">
                         <div class="input-group">
                         <label for="table-name" class="col-form-label">API Name:</label><br>
                         <select class="custom-select" name="api-name" id="api-name">

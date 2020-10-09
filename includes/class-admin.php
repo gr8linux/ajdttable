@@ -21,12 +21,12 @@ class Admin {
             'activate_plugins', 'ajdtsettings', 'ajdt_list_api');
 
         add_submenu_page('ajdtsettings', __('AJDT Short Codes', 'fgpt'), __('AJDT Short Codes', 'fgpt'), 
-            'activate_plugins', 'ajdttables', 'ajdt_render_shortcode');
+            'activate_plugins', 'ajdtshortcodes', 'ajdt_render_shortcode');
 
         // foreach (get_option(AJDT_APILISTNAME) as $key => $Api) {
         //     //echo do_shortcode("[AJDT api='$key' allapi='$AllKeys']");
         //     add_submenu_page('ajdtsettings', __('Short Codes - '.$key, 'fgpt'), __('Short Codes - '.$key, 'fgpt'), 
-        //     'activate_plugins', 'ajdttables', 'ajdt_render_shortcode');
+        //     'activate_plugins', 'ajdtshortcodes', 'ajdt_render_shortcode');
         // }
     }
 }
